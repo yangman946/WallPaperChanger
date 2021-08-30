@@ -252,7 +252,7 @@ def createWallpaper(isDay, WeatherCode):
     
     img = Image.open(chosen_image)
     img = img.point(lambda p: p * brightness)
-    im1 = Image.open(current_path +"\\out.jpg")
+    im1 = Image.open(current_path +"\\out.jpeg")
 
     baseheight = 600
 

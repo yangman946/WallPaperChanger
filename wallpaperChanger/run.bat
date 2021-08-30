@@ -1,4 +1,5 @@
-python "C:\python\wallpaperChanger\mainScript.py"
+python "C:\Users\clare\Documents\GitHub\WallPaperChanger\wallpaperChanger\mainScript.py"
+
 
 
  
