@@ -51,7 +51,7 @@ def main():
     # get api: get wallpaper, edit texts
     global brightness
     try:
-        pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"
+        
         #getting our weather data
         response = requests.get(CurrentUrl) #first get current weather
         with open(current_path + '\\feed.xml', 'wb' ) as file:
@@ -107,11 +107,18 @@ def main():
             weathercode = 3 
         #urllib.request.urlretrieve(imgURL, "icon.jpg")
         #print(asdf) #evokes error
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
-        local_file = open(current_path+"\\out.jpeg",'wb')
-        req = Request(url=pic_url, headers=headers)
+        
+        
+        #local_file = open(current_path+"\\out.png",'wb')
+        #requests.get(url=pic_url, stream=True).raw
+        
+        #req = Request(url=pic_url, headers=headers)
+        '''
         with urlopen(req) as response:
+            time.sleep(1)
             local_file.write(response.read())
+        '''
+
         createWallpaper(isday, weathercode)
     except requests.ConnectionError:
         #inform them of the specific error here (based off the error code)
@@ -203,6 +210,7 @@ def text_wrap(text, font, max_width):
 
 def createWallpaper(isDay, WeatherCode):
     chosen_image = ""
+    pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"
     if isDay:
         #do something
         if WeatherCode == 0:
@@ -252,7 +260,10 @@ def createWallpaper(isDay, WeatherCode):
     
     img = Image.open(chosen_image)
     img = img.point(lambda p: p * brightness)
-    im1 = Image.open(current_path +"\\out.jpeg")
+    #im1 = Image.open(current_path +"\\out.png")
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
+    
+    im1 = Image.open(urlopen(Request(url=pic_url, headers=headers)))
 
     baseheight = 600
 
