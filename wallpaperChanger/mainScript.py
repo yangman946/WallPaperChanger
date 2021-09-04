@@ -5,9 +5,12 @@ creates a wallpaper and edits text on it!
 ctypes.windll.user32.SystemParametersInfoW(20, 0, "absolute path" , 0)
 
 
-wednesday
-thursday ~~
-https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png 
+image url for weather: customise your own here: 
+https://www.theweather.com/
+
+you'll need your own api key for openweather:
+https://openweathermap.org/api 
+
 '''
 
 import ctypes
@@ -23,10 +26,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-print(os.path.dirname(os.path.realpath(__file__)))
-#current_path = r"D:\clarence's stuff\python\wallpaperChanger"
+#print(os.path.dirname(os.path.realpath(__file__)))
+
 current_path = os.path.dirname(os.path.realpath(__file__))
-APIKEYOWM = os.getenv("API_KEY")
+APIKEYOWM = os.getenv("API_KEY") #place openweather widget url here
 
 #ForecastUrl = "http://api.openweathermap.org/data/2.5/forecast?q=carlingford&mode=xml&units=metric&APPID=" + APIKEYOWM
 CurrentUrl = "http://api.openweathermap.org/data/2.5/weather?q=west%20pennant%20hills&mode=xml&units=metric&APPID=" + APIKEYOWM
@@ -210,7 +213,7 @@ def text_wrap(text, font, max_width):
 
 def createWallpaper(isDay, WeatherCode):
     chosen_image = ""
-    pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"
+    pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png" #place custom weather widget here
     if isDay:
         #do something
         if WeatherCode == 0:
