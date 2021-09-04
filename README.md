@@ -11,7 +11,14 @@ This Python script changes your desktop wallpaper based on the weather.
 `$ git clone https://github.com/yangman946/WallPaperChanger`
 
 ## Running
+You need:
+Image url for weather: customise your own here: 
+https://www.theweather.com/
 
+Own api key for openweather:
+https://openweathermap.org/api 
+  
+refer to `mainScript.py`
 Use Windows Task scheduler to periodically run the `mainScript.py` file. 
-You must also obtain your own API key for weather services. 
+
 
