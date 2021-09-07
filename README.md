@@ -1,7 +1,8 @@
 # WallPaperChanger
 
 <p align="center">
-<img src="https://github.com/yangman946/WallPaperChanger/blob/main/wallpaperChanger/currentWallpaper.jpeg?raw=true" alt="wallpaper">
+    <img src=".github/images/wallpaper.jpeg" alt="wallpaper">
+</p>
 
 ## About
 This Python script changes your desktop wallpaper based on the weather.
@@ -35,7 +36,6 @@ Currently, the `mainScript.py` script supports the following weather states:
   <li>Mist (cloudy)</li>
   <li>Rain </li>
   <li>and lightning </li>
-  
 </ul>
 
 <br>
