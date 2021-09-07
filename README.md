@@ -49,7 +49,7 @@ Currently, the `mainScript.py` script supports the following weather states:
   <li>Clear </li>
   <li>Mist (cloudy)</li>
   <li>Rain </li>
-  <li>and lightning </li>
+  <li>and thunder </li>
 </ul>
 
 <br>
@@ -60,7 +60,7 @@ If you wish to replace images, ensure that:
 <ul>
   <li>The images are of correct size (recommended 3936x2624 pixels)</li>
   <li>The images are in the correct folders</li>
-  <li>The images are properly labelled (1 - n) </li>
+  <li>The images are properly labelled {weather state}_{day state}_{image index} </li>
   <li>The images are jpeg images </li>
 </ul>
 
