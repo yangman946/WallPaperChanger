@@ -25,8 +25,22 @@ refer to `mainScript.py` for where to insert these values.
 
 <br>
 
+You can run this script two ways:
 
-Use Windows Task scheduler to periodically run the `mainScript.py` file. 
+<ul>
+  <li>Via the <code>run.bat</code> script</li>
+    <ul>
+        <li>and use Windows Task scheduler to periodically run the <code>run.bat</code> file. </li>
+    </ul>
+  <li>or Via the command line
+    <ul>
+      <li>CD to your directory</li>
+      <li>run <code>python -m wallpaperChanger.mainScript</code> </li>
+    </ul>
+  </li>
+</ul>
+
+
 
 ## Customising wallpapers
 
@@ -62,7 +76,7 @@ This project is a work in progress and will expect frequent updates.
 <ul>
   <li>Expand wallpaper folders.</li>
   <li>Add temperature conditions and assign certain wallpapers to temperature. </li>
-  <li>Make the program run without appearing (invisible)</li>
+  <li><s>Make the program run without appearing (invisible)</s></li>
 </ul>
 
 <br>
