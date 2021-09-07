@@ -22,21 +22,29 @@ import os
 from urllib.request import urlopen, Request
 import random
 from dotenv import load_dotenv
+from pathlib import Path
 
 load_dotenv() #load environment variables.
 
 pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png" #place custom weather widget URL here <------- from https://www.theweather.com/ 
 
-current_path = os.path.dirname(os.path.realpath(__file__))
+BASE_DIR = Path(__file__).parent
+
+ASSETS_DIR = BASE_DIR / 'assets'
+GENERATED_DIR = BASE_DIR / 'generated'
+
+OK_WALLPAPER = GENERATED_DIR / 'wallpaper.jpeg'
+ERROR_WALLPAPER = GENERATED_DIR / 'error.jpeg'
+
 APIKEYOWM = os.getenv("API_KEY") #place openweather api key here <------ from https://openweathermap.org/api 
 
 
 CurrentUrl = "http://api.openweathermap.org/data/2.5/weather?q="+os.getenv("city")+"&mode=xml&units=metric&APPID=" + APIKEYOWM # <--- replace current url (change parameters to your needs)
 
 #load fonts
-font = ImageFont.truetype(current_path + "\\Montserrat\\Montserrat-Thin.ttf", 120)
-font2 = ImageFont.truetype(current_path + "\\Montserrat\\Montserrat-Thin.ttf", 50)
-font3 = ImageFont.truetype(current_path + "\\Montserrat\\Montserrat-Thin.ttf", 70)
+font = ImageFont.truetype(ASSETS_DIR / "fonts/Montserrat/Montserrat-Thin.ttf", 120)
+font2 = ImageFont.truetype(ASSETS_DIR / "fonts/Montserrat/Montserrat-Thin.ttf", 50)
+font3 = ImageFont.truetype(ASSETS_DIR / "fonts/Montserrat/Montserrat-Thin.ttf", 70)
 
 
 #weather data: work on this <-- add temperature functions
@@ -56,9 +64,9 @@ def main(): #main function
         
         #getting our weather data
         response = requests.get(CurrentUrl) #first get current weather
-        with open(current_path + '\\feed.xml', 'wb' ) as file:
+        with (GENERATED_DIR / 'feed.xml').open('wb') as file:
             file.write(response.content) #write weather data to feed.xml <-- this will be automatically created if it doesnt exist.
-        tree = ET.parse(current_path + '\\feed.xml')
+        tree = ET.fromstring(response.content.decode('utf-8'))
         root = tree.getroot()
         for child in root:
 
@@ -113,8 +121,7 @@ def main(): #main function
 def getFailed():
 
     try:
-        chosen_image = current_path + "\\wallpapers\\error.jpeg" #use the error wallpaper
-        img = Image.open(chosen_image)
+        img = Image.open(ERROR_WALLPAPER)
         img = img.point(lambda p: p * brightness) #set brightness of the error wallpaper. 
         draw = ImageDraw.Draw(img)
         now = datetime.now()
@@ -133,7 +140,7 @@ def getFailed():
         #Bottom right.
         draw.text((3200,2000), "Smart Wallpaper", (255,255,255), font=font3)
         draw.text((3280,2100), "by Clarence Yang", (255,255,255), font=font2)
-        img.save(current_path + "\\errorWallpaper.jpeg")
+        img.save(ERROR_WALLPAPER)
     except Exception as e: #the above code failed: perhaps the error.jpeg doesn't exist.
         print(e) #debug
         w, h = 3936, 2424
@@ -156,10 +163,10 @@ def getFailed():
         #bottom right
         img1.text((3200,2000), "Smart Wallpaper", (255,255,255), font=font3)
         img1.text((3280,2100), "by Clarence Yang", (255,255,255), font=font2)
-        img.save(current_path + "\\errorWallpaper.jpeg")
+        img.save(ERROR_WALLPAPER)
 
     #Set failed wallpaper 
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, current_path + "\\errorWallpaper.jpeg" , 0)
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, ERROR_WALLPAPER , 0)
     
 
 #returns current hour
@@ -178,45 +185,45 @@ def createWallpaper(isDay, WeatherCode): #creates wallpaper: clean code?
             #rain
             print("rain")
             #length of all files in the chosen folder. 
-            length = len([name for name in os.listdir(current_path + "\\wallpapers\\rain_day_folder") if os.path.isfile(os.path.join(current_path + "\\wallpapers\\rain_day_folder", name))])
-            chosen_image = current_path + "\\wallpapers\\rain_day_folder\\rain_day_{}.jpeg".format(random.randint(1,length)) #get a random image from this folder
+            length = len([name for name in os.listdir(ASSETS_PATH / "wallpapers/rain_day_folder") if os.path.isfile(os.path.join(ASSETS_PATH / "wallpapers/rain_day_folder", name))])
+            chosen_image = ASSETS_PATH / "wallpapers/rain_day_folder/rain_day_{}.jpeg".format(random.randint(1,length)) #get a random image from this folder
         elif WeatherCode == 1:
             #fog
             print("fog")
-            length = len([name for name in os.listdir(current_path + "\\wallpapers\\mist_day_folder") if os.path.isfile(os.path.join(current_path + "\\wallpapers\\mist_day_folder", name))])
+            length = len([name for name in os.listdir(ASSETS_PATH / "wallpapers/mist_day_folder") if os.path.isfile(os.path.join(ASSETS_PATH / "wallpapers/mist_day_folder", name))])
             print(length)
-            chosen_image = current_path + "\\wallpapers\\mist_day_folder\\mist_day_{}.jpeg".format(random.randint(1,length))
+            chosen_image = ASSETS_PATH / "wallpapers/mist_day_folder/mist_day_{}.jpeg".format(random.randint(1,length))
         elif WeatherCode == 2:
             #clear
-            length = len([name for name in os.listdir(current_path + "\\wallpapers\\clear_day_folder") if os.path.isfile(os.path.join(current_path + "\\wallpapers\\clear_day_folder", name))])
-            chosen_image = current_path + "\\wallpapers\\clear_day_folder\\clear_day_{}.jpeg".format(random.randint(1,length))
+            length = len([name for name in os.listdir(ASSETS_PATH / "wallpapers/clear_day_folder") if os.path.isfile(os.path.join(ASSETS_PATH / "wallpapers/clear_day_folder", name))])
+            chosen_image = ASSETS_PATH / "wallpapers/clear_day_folder/clear_day_{}.jpeg".format(random.randint(1,length))
             print("clear")
         elif WeatherCode == 3:
             #thunder
-            length = len([name for name in os.listdir(current_path + "\\wallpapers\\thunder_day_folder") if os.path.isfile(os.path.join(current_path + "\\wallpapers\\thunder_day_folder", name))])
-            chosen_image = current_path + "\\wallpapers\\thunder_day_folder\\thunder_day_{}.jpeg".format(random.randint(1,length))
+            length = len([name for name in os.listdir(ASSETS_PATH / "wallpapers/thunder_day_folder") if os.path.isfile(os.path.join(ASSETS_PATH / "wallpapers/thunder_day_folder", name))])
+            chosen_image = ASSETS_PATH / "wallpapers/thunder_day_folder/thunder_day_{}.jpeg".format(random.randint(1,length))
             print("thunder")
     else: #if night
         #find the current weather 
         if WeatherCode == 0:
             #rain
             print("rain")
-            length = len([name for name in os.listdir(current_path + "\\wallpapers\\rain_night_folder") if os.path.isfile(os.path.join(current_path + "\\wallpapers\\rain_night_folder", name))])
-            chosen_image = current_path + "\\wallpapers\\rain_night_folder\\rain_night_{}.jpeg".format(random.randint(1,length))
+            length = len([name for name in os.listdir(ASSETS_PATH / "wallpapers/rain_night_folder") if os.path.isfile(os.path.join(ASSETS_PATH / "wallpapers/rain_night_folder", name))])
+            chosen_image = ASSETS_PATH / "wallpapers/rain_night_folder/rain_night_{}.jpeg".format(random.randint(1,length))
         elif WeatherCode == 1:
             #fog
             print("fog")
-            length = len([name for name in os.listdir(current_path + "\\wallpapers\\mist_night_folder") if os.path.isfile(os.path.join(current_path + "\\wallpapers\\mist_night_folder", name))])
-            chosen_image = current_path + "\\wallpapers\\mist_night_folder\\mist_night_{}.jpeg".format(random.randint(1,length))
+            length = len([name for name in os.listdir(ASSETS_PATH / "wallpapers/mist_night_folder") if os.path.isfile(os.path.join(ASSETS_PATH / "wallpapers/mist_night_folder", name))])
+            chosen_image = ASSETS_PATH / "wallpapers/mist_night_folder/mist_night_{}.jpeg".format(random.randint(1,length))
         elif WeatherCode == 2:
             #clear
-            length = len([name for name in os.listdir(current_path + "\\wallpapers\\clear_night_folder") if os.path.isfile(os.path.join(current_path + "\\wallpapers\\clear_night_folder", name))])
-            chosen_image = current_path + "\\wallpapers\\clear_night_folder\\clear_night_{}.jpeg".format(random.randint(1,length))
+            length = len([name for name in os.listdir(ASSETS_PATH / "wallpapers/clear_night_folder") if os.path.isfile(os.path.join(ASSETS_PATH / "wallpapers/clear_night_folder", name))])
+            chosen_image = ASSETS_PATH / "wallpapers/clear_night_folder/clear_night_{}.jpeg".format(random.randint(1,length))
             print("clear")
         elif WeatherCode == 3:
             #thunder
-            length = len([name for name in os.listdir(current_path + "\\wallpapers\\thunder_night_folder") if os.path.isfile(os.path.join(current_path + "\\wallpapers\\thunder_night_folder", name))])
-            chosen_image = current_path + "\\wallpapers\\thunder_night_folder\\thunder_night_{}.jpeg".format(random.randint(1,length))
+            length = len([name for name in os.listdir(ASSETS_PATH / "wallpapers/thunder_night_folder") if os.path.isfile(os.path.join(ASSETS_PATH / "wallpapers/thunder_night_folder", name))])
+            chosen_image = ASSETS_PATH / "wallpapers/thunder_night_folder/thunder_night_{}.jpeg".format(random.randint(1,length))
             print("thunder")
     
     
@@ -252,8 +259,11 @@ def createWallpaper(isDay, WeatherCode): #creates wallpaper: clean code?
     draw.text((3280,2100), "by Clarence Yang", (255,255,255), font=font2)
 
     #save image and set it as the current wallpaper
-    img.save(current_path + "\\currentWallpaper.jpeg")
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, current_path + "\\currentWallpaper.jpeg" , 0)
+    img.save(OK_WALLPAPER)
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, OK_WALLPAPER, 0)
 
-main() #run
-
+if __name__ == '__main__':
+    # create required directories
+    GENERATED_DIR.mkdir(parents=True, exists_ok=True)
+    
+    main()
