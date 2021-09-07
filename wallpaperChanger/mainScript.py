@@ -1,15 +1,14 @@
 ''' 
 daily wallpaper generator: by clarence yang 4/09/20
-creates a wallpaper and edits text on it!
-
-ctypes.windll.user32.SystemParametersInfoW(20, 0, "absolute path" , 0)
-
+creates a wallpaper depending on the weather!
 
 image url for weather: customise your own here: 
 https://www.theweather.com/
 
 you'll need your own api key for openweather:
 https://openweathermap.org/api 
+
+You can run this script using a batch file and run it periodically (e.g., every hour) through windows task scheduler. 
 
 '''
 
@@ -26,13 +25,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-#print(os.path.dirname(os.path.realpath(__file__)))
+pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png" #place custom weather widget URL here <------- from https://www.theweather.com/ 
 
 current_path = os.path.dirname(os.path.realpath(__file__))
-APIKEYOWM = os.getenv("API_KEY") #place openweather widget url here
+APIKEYOWM = os.getenv("API_KEY") #place openweather api key here <------ from https://openweathermap.org/api 
 
-#ForecastUrl = "http://api.openweathermap.org/data/2.5/forecast?q=carlingford&mode=xml&units=metric&APPID=" + APIKEYOWM
-CurrentUrl = "http://api.openweathermap.org/data/2.5/weather?q=west%20pennant%20hills&mode=xml&units=metric&APPID=" + APIKEYOWM
+
+CurrentUrl = "http://api.openweathermap.org/data/2.5/weather?q="+os.getenv("city")+"&mode=xml&units=metric&APPID=" + APIKEYOWM # <--- replace current url (change parameters to your needs)
 font = ImageFont.truetype(current_path + "\\Montserrat\\Montserrat-Thin.ttf", 120)
 font2 = ImageFont.truetype(current_path + "\\Montserrat\\Montserrat-Thin.ttf", 50)
 font3 = ImageFont.truetype(current_path + "\\Montserrat\\Montserrat-Thin.ttf", 70)
@@ -50,7 +49,7 @@ offset = 1500
 
 brightness = 0.4
 
-def main():
+def main(): #main function
     # get api: get wallpaper, edit texts
     global brightness
     try:
@@ -62,17 +61,7 @@ def main():
         tree = ET.parse(current_path + '\\feed.xml')
         root = tree.getroot()
         for child in root:
-            '''
-            if child.tag == "city":
 
-                City = child.attrib['name']
-            elif child.tag == "temperature":
-                temp.append(float(child.attrib['value']))
-                temp.append(float(child.attrib['min']))
-                temp.append(float(child.attrib['max']))
-            elif child.tag == "clouds":
-                clouds = child.attrib['name']
-            '''
             if child.tag == "weather":
                 #weather = child.attrib['value']
                 weatherID = child.attrib['number']
@@ -213,7 +202,7 @@ def text_wrap(text, font, max_width):
 
 def createWallpaper(isDay, WeatherCode):
     chosen_image = ""
-    pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png" #place custom weather widget here
+    
     if isDay:
         #do something
         if WeatherCode == 0:
@@ -273,10 +262,6 @@ def createWallpaper(isDay, WeatherCode):
     hpercent = (baseheight / float(im1.size[1]))
     wsize = int((float(im1.size[0]) * float(hpercent)))
     im1 = im1.resize((wsize, baseheight))
-    #path_wkthmltoimage = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe'
-    #config = imgkit.config(wkhtmltoimage=path_wkthmltoimage)
-    #imgkit.from_file(current_path + "\\weather.html", current_path+ "\\out.jpg", config=config)
-    
 
 
     img.paste(im1, (3350,200), im1)
@@ -293,25 +278,7 @@ def createWallpaper(isDay, WeatherCode):
     w, h = draw.textsize(now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font=font2)
     #w, h = draw.textsize(now.strftime(now.strftime("%B") + " " + str(now.day) + " " + str(now.year)))
     draw.text(((W-w)/2,(H-h)/2 + 100), now.strftime("%B") + " " + str(now.day) + " " + str(now.year), (255,255,255), font=font2)
-    #draw.text(((3230-w)/2 + offset,(350-h)/2), now.strftime("%B") + " " + str(now.day) + " " + str(now.year), (255,255,255), font=font2)
 
-    
-    #w, h = draw.textsize(now.strftime("Weather in " + city), font=font3)
-    #draw.text((3100 - w, 400 - h), "Weather in " + city, (255,255,255), font=font3)
-    #draw.text(((3230-w)/2 + offset,(600-h)/2), "Weather in " + city, (255,255,255), font=font3)
-
-
-    #w, h = draw.textsize(now.strftime("Now: " + str(int(temp[0])) + "°C " + " Min: " + str(int(temp[1])) + "°C " + " Max: " + str(int(temp[2])) + "°C "), font=font2)
-    #draw.text((3100 - w, 400 - h + 100), "Now: " + str(int(temp[0])) + "°C " + " Min: " + str(int(temp[1])) + "°C " + " Max: " + str(int(temp[2])) + "°C ", (255,255,255), font=font2)
-    #draw.text(((3230-w)/2 + offset,(700-h)/2), "Now: " + str(int(temp[0])) + "°C " + " Min: " + str(int(temp[1])) + "°C " + " Max: " + str(int(temp[2])) + "°C ", (255,255,255), font=font2)
-
-
-
-    #w, h = draw.textsize("Currently " + weather, font=font2)
-    #draw.multiline_text((3300, 800),"Clouds: " + cloud + "Weather: " + weather,(255,255,255),font=font2, align='center')
-    #draw.text((3300,800), "Clouds: " + cloud, (255,255,255), font=font2)
-    #draw.text((3100 - w, 700 - h), "Currently " + weather, (255,255,255), font=font2)
-    #draw.text((3280,900), "Weather: " + weather, (255,255,255), font=font2)
 
 
 
