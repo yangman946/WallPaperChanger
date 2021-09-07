@@ -39,11 +39,11 @@ font2 = ImageFont.truetype(current_path + "\\Montserrat\\Montserrat-Thin.ttf", 5
 font3 = ImageFont.truetype(current_path + "\\Montserrat\\Montserrat-Thin.ttf", 70)
 
 
-#weather data
+#weather data: work on this <-- add temperature functions
 City = ""
-temp = [] #current, min, max 
-clouds = ""
-weather = ""
+#temp = [] #current, min, max 
+#clouds = ""
+#weather = ""
 weatherID = 0
 
 #image brightness
