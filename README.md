@@ -73,4 +73,5 @@ Possible improvements:
   <li>Find a wallpaper API, reduces need for having folders full of images</li>
   <li>Show news or other information along with the weather.</li>
   <li>Export as an executable</li>
+  <li>Make this project compatible with non-windows systems.</li>
 </ul>
