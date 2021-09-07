@@ -55,7 +55,7 @@ def main():  # main function
         with (GENERATED_DIR / 'feed.xml').open('wb') as file:
             file.write(
                 response.content)  # write weather data to feed.xml <-- this will be automatically created if it doesnt exist.
-        tree = ET.fromstring(response.content.decode('utf-8'))
+        tree = ET.parse(GENERATED_DIR / 'feed.xml')
         root = tree.getroot()
         for child in root:
 
@@ -153,7 +153,7 @@ def getFailed():
         img.save(ERROR_WALLPAPER)
 
     # Set failed wallpaper
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, ERROR_WALLPAPER, 0)
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, str(ERROR_WALLPAPER), 0)
     
 
 # returns current hour
@@ -265,7 +265,7 @@ def createWallpaper(isDay, WeatherCode):  # creates wallpaper: clean code?
 
     # save image and set it as the current wallpaper
     img.save(OK_WALLPAPER)
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, OK_WALLPAPER, 0)
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, str(OK_WALLPAPER), 0)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,6 @@
 .idea
 generated
 
+.env
+
 *.log

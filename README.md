@@ -21,8 +21,8 @@ You need:
 
 <br>
 
-  
 refer to `mainScript.py` for where to insert these values. 
+
 <br>
 
 

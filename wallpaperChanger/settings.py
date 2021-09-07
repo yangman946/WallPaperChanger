@@ -15,4 +15,4 @@ ERROR_WALLPAPER = GENERATED_DIR / 'error.jpeg'
 load_dotenv()  # load environment variables.
 
 API_KEY = os.getenv("API_KEY", '')  # place openweather api key here <------ from https://openweathermap.org/api
-CITY = os.getenv("city", '')
+CITY = os.getenv("city", '') # write city name
