@@ -66,36 +66,36 @@ def main():  # main function
         # getting time 
         hour = getHour()
 
-        isday = False
-        if hour < 6 or hour > 18:
+        dayState = "day"
+        if hour < 6 or hour > 18: #change this to find a sun rise sun set api
             # night
-            isday = False
+            dayState = "night"
             brightness = 0.4
             print("is day: false")
 
         else:
             brightness = 0.7
-            isday = True
+            dayState = "day"
             print("is day: true")
 
-        weathercode = 0  # our custom code: 
+        weathercode = ""  # current weather
         # checking the type of weather: obviously you could go deeper and have more images, see: https://openweathermap.org/weather-conditions for modifications
         # add other weather codes if you want.
         print(weatherID)
         if int(weatherID) >= 300 and int(weatherID) < 623:
             # rain or snow, idk, just put it as rain
-            weathercode = 0
+            weathercode = "rain"
         elif int(weatherID) > 700 and int(weatherID) < 782:
             # fog or atmosphere
-            weathercode = 1
+            weathercode = "mist"
         elif int(weatherID) >= 800:
-            weathercode = 2
+            weathercode = "clear"
             # clear
         elif int(weatherID) >= 200 and int(weatherID) <= 232:
             # thunder
-            weathercode = 3
+            weathercode = "thunder"
 
-        createWallpaper(isday, weathercode)  # create the wallpaper
+        createWallpaper(dayState, weathercode)  # create the wallpaper
     except requests.ConnectionError:
         # inform them of the specific error here (based off the error code)
         getFailed()
@@ -162,71 +162,16 @@ def getHour():
     return hour
 
 
-def createWallpaper(isDay, WeatherCode):  # creates wallpaper: clean code?
+def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
     chosen_image = ""
-
+    print(WeatherCode)
     # if it is day
-    if isDay:
-        # find the current weather
-        if WeatherCode == 0:
-            # rain
-            print("rain")
-            # length of all files in the chosen folder. 
-            length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/rain_day_folder") if
-                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/rain_day_folder", name))])
-            chosen_image = ASSETS_DIR / "wallpapers/rain_day_folder/rain_day_{}.jpeg".format(
-                random.randint(1, length))  # get a random image from this folder
-        elif WeatherCode == 1:
-            # fog
-            print("fog")
-            length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/mist_day_folder") if
-                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/mist_day_folder", name))])
-            print(length)
-            chosen_image = ASSETS_DIR / "wallpapers/mist_day_folder/mist_day_{}.jpeg".format(random.randint(1, length))
-        elif WeatherCode == 2:
-            # clear
-            length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/clear_day_folder") if
-                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/clear_day_folder", name))])
-            chosen_image = ASSETS_DIR / "wallpapers/clear_day_folder/clear_day_{}.jpeg".format(
-                random.randint(1, length))
-            print("clear")
-        elif WeatherCode == 3:
-            # thunder
-            length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/thunder_day_folder") if
-                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/thunder_day_folder", name))])
-            chosen_image = ASSETS_DIR / "wallpapers/thunder_day_folder/thunder_day_{}.jpeg".format(
-                random.randint(1, length))
-            print("thunder")
-    else:  # if night
-        # find the current weather 
-        if WeatherCode == 0:
-            # rain
-            print("rain")
-            length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/rain_night_folder") if
-                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/rain_night_folder", name))])
-            chosen_image = ASSETS_DIR / "wallpapers/rain_night_folder/rain_night_{}.jpeg".format(
-                random.randint(1, length))
-        elif WeatherCode == 1:
-            # fog
-            print("fog")
-            length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/mist_night_folder") if
-                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/mist_night_folder", name))])
-            chosen_image = ASSETS_DIR / "wallpapers/mist_night_folder/mist_night_{}.jpeg".format(
-                random.randint(1, length))
-        elif WeatherCode == 2:
-            # clear
-            length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/clear_night_folder") if
-                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/clear_night_folder", name))])
-            chosen_image = ASSETS_DIR / "wallpapers/clear_night_folder/clear_night_{}.jpeg".format(
-                random.randint(1, length))
-            print("clear")
-        elif WeatherCode == 3:
-            # thunder
-            length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/thunder_night_folder") if
-                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/thunder_night_folder", name))])
-            chosen_image = ASSETS_DIR / "wallpapers/thunder_night_folder/thunder_night_{}.jpeg".format(
-                random.randint(1, length))
-            print("thunder")
+
+    length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/{}_{}_folder".format(WeatherCode, daystate)) if
+                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/{}_{}_folder".format(WeatherCode, daystate), name))])
+    chosen_image = ASSETS_DIR / "wallpapers/{0}_{1}_folder/{0}_{1}_{2}.jpeg".format(
+                WeatherCode, daystate, random.randint(1, length))  # get a random image from this folder
+    
 
     img = Image.open(chosen_image)  # open image
     img = img.point(lambda
