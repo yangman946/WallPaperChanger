@@ -27,7 +27,51 @@ refer to `mainScript.py` for where to insert these values.
 
 Use Windows Task scheduler to periodically run the `mainScript.py` file. 
 
+## Customising wallpapers
+
+Currently, the `mainScript.py` script supports the following weather states:
+<ul>
+  <li>Clear </li>
+  <li>Mist (cloudy)</li>
+  <li>Rain </li>
+  <li>and lightning </li>
+  
+</ul>
+
+<br>
+You will find separate pairs of folders for each weather condition (day and night). 
+These folders contain jpeg images (3936x2624 pixels) each labeled from 1 to the number of images in the folder. 
+If you wish to replace images, ensure that:
+<br>
+<ul>
+  <li>The images are of correct size (recommended 3936x2624 pixels)</li>
+  <li>The images are in the correct folders</li>
+  <li>The images are properly labelled (1 - n) </li>
+  <li>The images are jpeg images </li>
+</ul>
+
+
 ## Contributing
 
 If you wish to contribute to this project, send a pull request and I will look at it.
 
+## To do
+
+This project is a work in progress and will expect frequent updates.
+<br>
+<ul>
+  <li>Expand wallpaper folders.</li>
+  <li>Add temperature conditions and assign certain wallpapers to temperature. </li>
+  <li>Make the program run without appearing (invisible)</li>
+</ul>
+
+<br>
+
+Possible improvements:
+<br>
+<ul>
+  <li>Find a wallpaper API, reduces need for having folders full of images</li>
+  <li>Show news or other information along with the weather.</li>
+  <li>Export as an executable</li>
+  <li>Make this project compatible with non-windows systems.</li>
+</ul>
