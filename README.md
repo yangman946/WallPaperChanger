@@ -77,7 +77,7 @@ This project is a work in progress and will expect frequent updates.
 <br>
 <ul>
   <li>Expand wallpaper folders.</li>
-  <li>Add a sunrise/sunset API to change the daystate. </li>
+  <li><s>Add a sunrise/sunset API to change the daystate. </s></li>
   <li>Add temperature conditions and assign certain wallpapers to temperature. </li>
   <li><s>Make the program run without appearing (invisible)</s></li>
 </ul>
