@@ -67,6 +67,7 @@ def get_wallpaper_images(time_of_day: str, weather_condition: str) -> List[Path]
     return [
         p for p in
         settings.ASSETS_DIR.glob(f'./wallpapers/{time_of_day}/{weather_condition}/*')
+        if p.is_file()
     ]
 
 
