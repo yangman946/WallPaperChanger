@@ -67,7 +67,7 @@ If you wish to replace images, ensure that:
 
 ## Contributing
 
-If you wish to contribute to this project, send a pull request and I will look at it.
+If you wish to contribute to this project, send a pull request, and I will look at it.
 
 ## To do
 
