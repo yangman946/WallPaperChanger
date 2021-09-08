@@ -30,8 +30,8 @@ You can run this script two ways:
 <ul>
   <li>Via the <code>run.bat</code> script</li>
     <ul>
-        <li>Change the first line CD {your file location} to your file location. </li>
-        <li>and use Windows Task scheduler to periodically run the <code>run.bat</code> file. </li>
+        <li>Change the first line CD {your file location} to the file location of <code>run.bat</code> </li>
+        <li>and use Windows Task scheduler to periodically run the <code>run.bat</code> file. You could make the script run once every hour. </li>
     </ul>
   <li>or Via the command line
     <ul>
