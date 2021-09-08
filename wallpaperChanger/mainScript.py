@@ -13,7 +13,6 @@ You can run this script using a batch file and run it periodically (e.g., every 
 """
 
 # imports
-import ctypes
 import os
 import random
 import xml.etree.ElementTree as ET
@@ -22,6 +21,7 @@ from urllib.request import urlopen, Request
 import requests
 from PIL import Image, ImageFont, ImageDraw
 from wallpaperChanger.settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
+from wallpaperChanger import wallpaper
 
 pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather
 # widget URL here <------- from https://www.theweather.com/
@@ -153,8 +153,7 @@ def getFailed():
         img1.text((3280, 2100), "by Clarence Yang", (255, 255, 255), font=font2)
         img.save(ERROR_WALLPAPER)
 
-    # Set failed wallpaper
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, str(ERROR_WALLPAPER), 0)
+    wallpaper.set_wallpaper(ERROR_WALLPAPER)
 
 
 # returns current hour
@@ -211,7 +210,7 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
 
     # save image and set it as the current wallpaper
     img.save(OK_WALLPAPER)
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, str(OK_WALLPAPER), 0)
+    wallpaper.set_wallpaper(OK_WALLPAPER)
 
 
 if __name__ == '__main__':
