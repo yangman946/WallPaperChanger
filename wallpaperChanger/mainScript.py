@@ -19,10 +19,8 @@ import random
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from urllib.request import urlopen, Request
-
 import requests
 from PIL import Image, ImageFont, ImageDraw
-
 from wallpaperChanger.settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
 
 pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather
