@@ -1,3 +1,7 @@
-cd {file location of your batch script}
-start /MIN python -m wallpaperChanger.mainScript
+@echo off
 
+@REM %~dp0 is substituted for directory where the batch is located 
+cd %~dp0
+
+@REM pythonw or python-window-mode doesnt show the console
+start /MIN pythonw -m wallpaperChanger.mainScript
