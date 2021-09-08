@@ -77,7 +77,7 @@ This project is a work in progress and will expect frequent updates.
 <br>
 <ul>
   <li>Expand wallpaper folders.</li>
-  <li>Add a sunrise/sunset api to change the daystate. </li>
+  <li>Add a sunrise/sunset API to change the daystate. </li>
   <li>Add temperature conditions and assign certain wallpapers to temperature. </li>
   <li><s>Make the program run without appearing (invisible)</s></li>
 </ul>
@@ -90,5 +90,5 @@ Possible improvements:
   <li>Find a wallpaper API, reduces need for having folders full of images</li>
   <li>Show news or other information along with the weather.</li>
   <li>Export as an executable</li>
-  <li>Make this project compatible with non-windows systems.</li>
+  <li><s>Make this project compatible with non-windows systems.</s></li>
 </ul>
