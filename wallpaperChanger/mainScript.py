@@ -13,15 +13,15 @@ You can run this script using a batch file and run it periodically (e.g., every 
 """
 
 # imports
-import os
-import random
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from urllib.request import urlopen, Request
+
 import requests
 from PIL import Image, ImageFont, ImageDraw
-from wallpaperChanger.settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
+
 from wallpaperChanger import wallpaper
+from wallpaperChanger.settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
 
 pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather
 # widget URL here <------- from https://www.theweather.com/
@@ -176,12 +176,7 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
     print(WeatherCode)
     # if it is day
 
-    length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/{}_{}_folder".format(WeatherCode, daystate)) if
-                  os.path.isfile(
-                      os.path.join(ASSETS_DIR / "wallpapers/{}_{}_folder".format(WeatherCode, daystate), name))])
-    chosen_image = ASSETS_DIR / "wallpapers/{0}_{1}_folder/{0}_{1}_{2}.jpeg".format(
-        WeatherCode, daystate, random.randint(1, length))  # get a random image from this folder
-
+    chosen_image = wallpaper.get_random_wallpaper_image(daystate, WeatherCode)
     img = Image.open(chosen_image)  # open image
     img = img.point(lambda
                     p: p * brightness)  # change image brightness, we don't want the brightness of the background

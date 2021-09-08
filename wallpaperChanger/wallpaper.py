@@ -1,9 +1,11 @@
 import platform
+import random
 import subprocess
 from functools import wraps
 from pathlib import Path
-from typing import Callable
+from typing import Callable, List
 
+from wallpaperChanger import settings
 from wallpaperChanger.exceptions import PlatformNotSupportedException
 
 system = platform.system()  # https://docs.python.org/3/library/platform.html#platform.system
@@ -58,3 +60,17 @@ else:
     def set_wallpaper(file: Path):
         """Placeholder function that throws a PlatformNotSupportedException when called"""
         raise PlatformNotSupportedException(f"'{system}' does not currently have support to change wallpaper.")
+
+
+def get_wallpaper_images(time_of_day: str, weather_condition: str) -> List[Path]:
+    """Returns paths of all wallpapers for the select conditions"""
+    return [
+        p for p in
+        settings.ASSETS_DIR.glob(f'./wallpapers/{time_of_day}/{weather_condition}/*')
+        if p.is_file()
+    ]
+
+
+def get_random_wallpaper_image(time_of_day: str, weather_condition: str) -> Path:
+    """Return a path pointing to random wallpaper pertaining to the conditions"""
+    return random.choice(get_wallpaper_images(time_of_day, weather_condition))
