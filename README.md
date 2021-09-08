@@ -1,17 +1,17 @@
-# WallPaperChanger
+# WallPaperChanger 🖼️
 
 <p align="center">
     <img src=".github/images/wallpaper.jpeg" alt="wallpaper">
 </p>
 
-## About
+# Description ⛈️
 This Python script changes your desktop wallpaper based on the weather.
   
-## Cloning
+# Cloning 🌀
 
 `$ git clone https://github.com/yangman946/WallPaperChanger`
 
-## Running
+# Running ⚡
 You need:
 <ul>
   <li>install requirements: <code>pip install -r requirements.txt</code> </li>
@@ -44,7 +44,7 @@ You can run this script two ways:
 
 
 
-## Customising wallpapers
+# Customising Wallpapers ✏️
 
 Currently, the `mainScript.py` script supports the following weather states:
 <ul>
@@ -67,11 +67,11 @@ If you wish to replace images, ensure that:
 </ul>
 
 
-## Contributing
+# Contributing 👍
 
-If you wish to contribute to this project, send a pull request, and I will look at it.
+If you wish to contribute to this project, send a pull request, and I will look at it. Here’s an easy and quick [video guide](https://youtu.be/waEb2c9NDL8) for learning how to contribute via GitHub.
 
-## To do
+# TODO List ✔️
 
 This project is a work in progress and will expect frequent updates.
 <br>
@@ -84,7 +84,7 @@ This project is a work in progress and will expect frequent updates.
 
 <br>
 
-Possible improvements:
+# Possible improvements ✅
 <br>
 <ul>
   <li>Find a wallpaper API, reduces need for having folders full of images</li>
