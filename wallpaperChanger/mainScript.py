@@ -23,11 +23,13 @@ from urllib.request import urlopen, Request
 import requests
 from PIL import Image, ImageFont, ImageDraw
 
-from .settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
+from wallpaperChanger.settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
 
-pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather widget URL here <------- from https://www.theweather.com/ 
+pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather
+# widget URL here <------- from https://www.theweather.com/
 
-CurrentUrl = f"http://api.openweathermap.org/data/2.5/weather?q={CITY}&mode=xml&units=metric&APPID={API_KEY}"  # <--- replace current url (change parameters to your needs)
+CurrentUrl = f"http://api.openweathermap.org/data/2.5/weather?q={CITY}&mode=xml&units=metric&APPID={API_KEY}"  # <---
+# replace current url (change parameters to your needs)
 
 # load fonts
 font = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-Thin.ttf"), 120)
@@ -39,7 +41,7 @@ City = ""
 # temp = [] #current, min, max 
 # clouds = ""
 # weather = ""
-weatherID = 0
+weather_ID = 0
 
 # image brightness
 brightness = 0.4
@@ -47,7 +49,7 @@ brightness = 0.4
 
 def main():  # main function
     # get api: get wallpaper, edit texts
-    global brightness
+    global brightness, weather_ID
     try:
 
         # getting our weather data
@@ -60,14 +62,15 @@ def main():  # main function
         for child in root:
 
             if child.tag == "weather":
-                weatherID = child.attrib[
-                    'number']  # weather ID, the weather condition is stored in a unique ID: https://openweathermap.org/weather-conditions 
+                weather_ID = child.attrib[
+                    'number']  # weather ID, the weather condition is stored in a unique ID:
+                # https://openweathermap.org/weather-conditions
 
         # getting time 
         hour = getHour()
 
         dayState = "day"
-        if hour < 6 or hour > 18: #change this to find a sun rise sun set api
+        if hour < 6 or hour > 18:  # change this to find a sun rise sun set api
             # night
             dayState = "night"
             brightness = 0.4
@@ -78,24 +81,24 @@ def main():  # main function
             dayState = "day"
             print("is day: true")
 
-        weathercode = ""  # current weather
-        # checking the type of weather: obviously you could go deeper and have more images, see: https://openweathermap.org/weather-conditions for modifications
-        # add other weather codes if you want.
-        print(weatherID)
-        if int(weatherID) >= 300 and int(weatherID) < 623:
+        weather_code = ""  # current weather
+        # checking the type of weather: obviously you could go deeper and have more images,
+        # see: https://openweathermap.org/weather-conditions for modifications add other weather codes if you want.
+        print(weather_ID)
+        if 300 <= int(weather_ID) < 623:
             # rain or snow, idk, just put it as rain
-            weathercode = "rain"
-        elif int(weatherID) > 700 and int(weatherID) < 782:
+            weather_code = "rain"
+        elif 700 < int(weather_ID) < 782:
             # fog or atmosphere
-            weathercode = "mist"
-        elif int(weatherID) >= 800:
-            weathercode = "clear"
+            weather_code = "mist"
+        elif int(weather_ID) >= 800:
+            weather_code = "clear"
             # clear
-        elif int(weatherID) >= 200 and int(weatherID) <= 232:
+        elif 200 <= int(weather_ID) <= 232:
             # thunder
-            weathercode = "thunder"
+            weather_code = "thunder"
 
-        createWallpaper(dayState, weathercode)  # create the wallpaper
+        createWallpaper(dayState, weather_code)  # create the wallpaper
     except requests.ConnectionError:
         # inform them of the specific error here (based off the error code)
         getFailed()
@@ -154,12 +157,11 @@ def getFailed():
 
     # Set failed wallpaper
     ctypes.windll.user32.SystemParametersInfoW(20, 0, str(ERROR_WALLPAPER), 0)
-    
+
 
 # returns current hour
 def getHour():
-    hour = datetime.now().hour
-    return hour
+    return datetime.now().hour
 
 
 def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
@@ -168,14 +170,15 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
     # if it is day
 
     length = len([name for name in os.listdir(ASSETS_DIR / "wallpapers/{}_{}_folder".format(WeatherCode, daystate)) if
-                          os.path.isfile(os.path.join(ASSETS_DIR / "wallpapers/{}_{}_folder".format(WeatherCode, daystate), name))])
+                  os.path.isfile(
+                      os.path.join(ASSETS_DIR / "wallpapers/{}_{}_folder".format(WeatherCode, daystate), name))])
     chosen_image = ASSETS_DIR / "wallpapers/{0}_{1}_folder/{0}_{1}_{2}.jpeg".format(
-                WeatherCode, daystate, random.randint(1, length))  # get a random image from this folder
-    
+        WeatherCode, daystate, random.randint(1, length))  # get a random image from this folder
 
     img = Image.open(chosen_image)  # open image
     img = img.point(lambda
-                        p: p * brightness)  # change image brightness, we don't want the brightness of the background to cancel out the white text. 
+                    p: p * brightness)  # change image brightness, we don't want the brightness of the background
+    # to cancel out the white text.
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
