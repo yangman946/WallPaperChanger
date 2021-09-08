@@ -51,6 +51,8 @@ def main():  # main function
     try:
 
         # getting our weather data
+        sunrise = 6
+        sunset = 18
         response = requests.get(CurrentUrl)  # first get current weather
         with (GENERATED_DIR / 'feed.xml').open('wb') as file:
             file.write(
@@ -63,17 +65,24 @@ def main():  # main function
                 weather_ID = child.attrib[
                     'number']  # weather ID, the weather condition is stored in a unique ID:
                 # https://openweathermap.org/weather-conditions
+            
+            if child.tag == "city": #get sunrise and sunset times
+                for item in child:
+                    if item.tag == "sun":
+                        sunrise = datetime.strptime(item.attrib['rise'], '%Y-%m-%dT%H:%M:%S')
+                        sunset = datetime.strptime(item.attrib['set'], '%Y-%m-%dT%H:%M:%S')
+
 
         # getting time 
         hour = getHour()
 
         dayState = "day"
-        if hour < 6 or hour > 18:  # change this to find a sun rise sun set api
+        if hour < sunrise.hour or hour > sunset.hour:  # change this to find a sun rise sun set api
             # night
+            
             dayState = "night"
             brightness = 0.4
             print("is day: false")
-
         else:
             brightness = 0.7
             dayState = "day"
@@ -158,6 +167,7 @@ def getFailed():
 
 # returns current hour
 def getHour():
+
     return datetime.now().hour
 
 
