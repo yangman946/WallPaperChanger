@@ -23,6 +23,9 @@ from PIL import Image, ImageFont, ImageDraw
 from wallpaperChanger import wallpaper
 from wallpaperChanger.settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
 
+from datetime import datetime
+from dateutil import tz
+
 pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather
 # widget URL here <------- from https://www.theweather.com/
 
@@ -76,13 +79,21 @@ def main():  # main function
         # getting time 
         hour = getHour()
 
+        #sunrise and sunset are in utc
+        from_zone = tz.tzutc()
+        to_zone = tz.tzlocal()
+        sunrise = sunrise.replace(tzinfo=from_zone)
+        sunset = sunset.replace(tzinfo=from_zone)
+        sunrise = sunrise.astimezone(to_zone)
+        sunset = sunset.astimezone(to_zone)
+
         dayState = "day"
         if hour < sunrise.hour or hour > sunset.hour:  # change this to find a sun rise sun set api
             # night
             
             dayState = "night"
             brightness = 0.4
-            print("is day: false")
+            print("is day: false: {}".format(sunrise))
         else:
             brightness = 0.7
             dayState = "day"
