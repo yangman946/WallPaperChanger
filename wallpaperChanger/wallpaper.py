@@ -4,8 +4,7 @@ from pathlib import Path
 
 from wallpaperChanger.exceptions import PlatformNotSupportedException
 
-# system = platform.system()  # https://docs.python.org/3/library/platform.html#platform.system
-system = ''
+system = platform.system()  # https://docs.python.org/3/library/platform.html#platform.system
 
 # Used to identify is a system has support to change wallpaper
 # alternative to calling a method and catching the exception
@@ -26,6 +25,7 @@ if system == 'Windows':
         ctypes.windll.user32.SystemParametersInfoW(20, 0, str(file), 0)
 
 elif system == 'Linux':
+
     # TODO add support for kde desktops
     def set_wallpaper(file: Path):
         """Change linux wallpaper to the provided file
