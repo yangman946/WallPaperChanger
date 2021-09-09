@@ -68,18 +68,17 @@ def main():  # main function
                 weather_ID = child.attrib[
                     'number']  # weather ID, the weather condition is stored in a unique ID:
                 # https://openweathermap.org/weather-conditions
-            
-            if child.tag == "city": #get sunrise and sunset times
+
+            if child.tag == "city":  # get sunrise and sunset times
                 for item in child:
                     if item.tag == "sun":
                         sunrise = datetime.strptime(item.attrib['rise'], '%Y-%m-%dT%H:%M:%S')
                         sunset = datetime.strptime(item.attrib['set'], '%Y-%m-%dT%H:%M:%S')
 
-
-        # getting time 
+        # getting time
         hour = getHour()
 
-        #sunrise and sunset are in utc
+        # sunrise and sunset are in utc
         from_zone = tz.tzutc()
         to_zone = tz.tzlocal()
         sunrise = sunrise.replace(tzinfo=from_zone)
@@ -87,10 +86,8 @@ def main():  # main function
         sunrise = sunrise.astimezone(to_zone)
         sunset = sunset.astimezone(to_zone)
 
-        dayState = "day"
         if hour < sunrise.hour or hour > sunset.hour:  # change this to find a sun rise sun set api
             # night
-            
             dayState = "night"
             brightness = 0.4
             print("is day: false: {}".format(sunrise))
@@ -178,15 +175,12 @@ def getFailed():
 
 # returns current hour
 def getHour():
-
     return datetime.now().hour
 
 
 def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
-    chosen_image = ""
     print(WeatherCode)
     # if it is day
-
     chosen_image = wallpaper.get_random_wallpaper_image(daystate, WeatherCode)
     img = Image.open(chosen_image)  # open image
     img = img.point(lambda
