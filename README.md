@@ -1,17 +1,35 @@
-# WallPaperChanger 🖼️
+
+
+<h1 align="center">
+    WallPaperChanger 🖼️
+</h1>
+<hr>
+<p align="center">
+    <img src="https://img.shields.io/badge/os-linux%2C%20windows-blue.svg"> 
+    <img src="https://img.shields.io/github/stars/yangman946/WallPaperChanger?color=ccf">
+    <img src="https://img.shields.io/badge/license-MIT-dfd.svg">
+    <img src="https://img.shields.io/github/contributors/yangman946/WallPaperChanger?color=9ea">
+    
+</p>
 
 <p align="center">
     <img src=".github/images/wallpaper.jpeg" alt="wallpaper">
 </p>
 
-# Description ⛈️
+<br>
+
+## Description ⛈️
 This Python script changes your desktop wallpaper based on the weather.
+<br>
+<br>
   
-# Cloning 🌀
+## Cloning 🌀
 
 `$ git clone https://github.com/yangman946/WallPaperChanger`
+<br>
+<br>
 
-# Running ⚡
+## Running ⚡
 You need:
 <ul>
   <li>install requirements: <code>pip install -r requirements.txt</code> </li>
@@ -19,7 +37,6 @@ You need:
   <li>Your own api key for openweather: https://openweathermap.org/api </li>
 </ul>
 
-<br>
 
 refer to `mainScript.py` for where to insert these values. 
 
@@ -42,9 +59,10 @@ You can run this script two ways:
   </li>
 </ul>
 
+<br>
+<br>
 
-
-# Customising Wallpapers ✏️
+## Customising Wallpapers ✏️
 
 Currently, the `mainScript.py` script supports the following weather states:
 <ul>
@@ -65,13 +83,18 @@ If you wish to replace images, ensure that:
   <li>The images are properly labelled {weather state}_{day state}_{image index} </li>
   <li>The images are jpeg images </li>
 </ul>
+<br>
+<br>
 
 
-# Contributing 👍
+## Contributing 👍
 
 If you wish to contribute to this project, send a pull request, and I will look at it. Here’s an easy and quick [video guide](https://youtu.be/waEb2c9NDL8) for learning how to contribute via GitHub.
 
-# TODO List ✔️
+<br>
+<br>
+
+## TODO List ✔️
 
 This project is a work in progress and will expect frequent updates.
 <br>
@@ -83,8 +106,9 @@ This project is a work in progress and will expect frequent updates.
 </ul>
 
 <br>
+<br>
 
-# Possible improvements ✅
+## Possible future improvements ✅
 <br>
 <ul>
   <li>Find a wallpaper API, reduces need for having folders full of images</li>
@@ -92,3 +116,6 @@ This project is a work in progress and will expect frequent updates.
   <li>Export as an executable</li>
   <li><s>Make this project compatible with non-windows systems.</s></li>
 </ul>
+
+<br>
+<br>
