@@ -86,7 +86,36 @@ If you wish to replace images, ensure that:
 <br>
 <br>
 
+To customise the layout of the wallpaper, refer to the `configurations` dictionary at `mainScript.py`.
+Here, you can add custom layouts or use existing ones. Each layout requires six parameters:
 
+<ol>
+  <li>Coordinates of your widget (x, y)</li>
+  <li>Day/date text location ("x", "y")</li>
+    <ul>
+        <li>"x": left, center or right </li>
+        <li>"y": top, center or bottom </li>
+    </ul>
+  <li>show water mark (true, false)</li>
+  <li>show compile time (true, false)</li>
+  <li>Compile time location ("x", "y")</li>
+    <ul>
+        <li>"x": left, center or right </li>
+        <li>"y": top, center or bottom </li>
+    </ul>
+  <li>Font</li>
+    <ul>
+        <li>Bold</li>
+        <li>ExtraBold</li>
+        <li>ExtraLight</li>
+        <li>Italic</li>
+        <li>Light</li>
+        <li>Medium</li>
+        <li>Regular</li>
+        <li>Thin</li>
+        <li>See all <a href = "https://github.com/yangman946/WallPaperChanger/tree/main/assets/fonts/Montserrat">fonts</a></li>
+    </ul>
+</ol>
 
 ## Contributing 👍
 
