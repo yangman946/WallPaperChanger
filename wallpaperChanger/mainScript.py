@@ -9,7 +9,7 @@ you'll need your own api key for openweather:
 https://openweathermap.org/api
 
 You can run this script using a batch file and run it periodically (e.g., every hour) through windows task scheduler.
-
+Make sure you edit the run.bat file to include the file location of the batch script. 
 """
 
 # imports
@@ -26,16 +26,36 @@ from wallpaperChanger.settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, E
 from datetime import datetime
 from dateutil import tz
 
-pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather
-# widget URL here <------- from https://www.theweather.com/
+# Step 1: get your custom weather widget from https://www.theweather.com/, 
+# change the syles to your likings, Recommened transparent background and white foreground
+pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather url here
 
-CurrentUrl = f"http://api.openweathermap.org/data/2.5/weather?q={CITY}&mode=xml&units=metric&APPID={API_KEY}"  # <---
-# replace current url (change parameters to your needs)
+# Step 2: get your api key from openweather: https://openweathermap.org/api
+CurrentUrl = f"http://api.openweathermap.org/data/2.5/weather?q={CITY}&mode=xml&units=metric&APPID={API_KEY}"  # <--- change parameters from settings.py
+
+# Step 3 (optional): choose your styles/themes (see README.md)
+# widget location / date text location (x, y) / water mark show / load time show / load time location / font style (see fonts)
+currentTheme = "default"
+configurations = {
+    "default": [(3350, 200), ["center", "center"], True, True, ["right", "top"], "light"],
+    "middle-left": [(3350, 200), ["left", "center"], True, True, ["right", "top"], "light"],
+    "middle-right": [(3350, 200), ["right", "center"], True, True, ["right", "top"], "light"],
+    "custom": [(3350, 200), ["left", "bottom"], True, True, ["right", "top"], "Medium"], # change this one to your needs, or define more themes
+}
+
+date_text_anchors = { # anchor factors
+    "top": [6, 5.6], # y
+    "bottom": [1.4, 1.4], # y
+    "center": [2, 2], # x or y
+    "right": [1.07, 1.055], # x
+    "left": [12, 12], # x
+}
 
 # load fonts
-font = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-Thin.ttf"), 120)
-font2 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-Thin.ttf"), 50)
-font3 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-Thin.ttf"), 70)
+font = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-{}.ttf").format(configurations[currentTheme][5]), 120)
+font2 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-{}.ttf").format(configurations[currentTheme][5]), 50)
+font3 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-{}.ttf").format(configurations[currentTheme][5]), 70)
+font4 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-{}.ttf").format(configurations[currentTheme][5]), 30)
 
 # weather data: work on this <-- add temperature functions
 City = ""
@@ -192,12 +212,14 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
 
     im1 = Image.open(urlopen(Request(url=pic_url, headers=headers)))  # get the weather widget 
 
+    #select layout
+
     # resizing and positioning the weather widget
     baseheight = 600
     hpercent = (baseheight / float(im1.size[1]))
     wsize = int((float(im1.size[0]) * float(hpercent)))
     im1 = im1.resize((wsize, baseheight))
-    img.paste(im1, (3350, 200), im1)
+    img.paste(im1, (configurations[currentTheme][0]), im1) # widget location
 
     # get current date and time. 
     draw = ImageDraw.Draw(img)
@@ -206,17 +228,24 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
     # draw the day and date
     W, H = img.size
     w, h = draw.textsize(now.strftime("%A"), font=font)
-    draw.text(((W - w) / 2, (H - h) / 2), now.strftime("%A"), (255, 255, 255), font=font)  # draw the day
+    draw.text(((W - w) / date_text_anchors[configurations[currentTheme][1][0]][0], (H - h) / date_text_anchors[configurations[currentTheme][1][1]][0]), 
+            now.strftime("%A"), (255, 255, 255), font=font)  # draw the day text
 
     # draw the date: month day year 
     w, h = draw.textsize(now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font=font2)
-    draw.text(((W - w) / 2, (H - h) / 2 + 100), now.strftime("%B") + " " + str(now.day) + " " + str(now.year),
-              (255, 255, 255), font=font2)
+    draw.text(((W - w) / date_text_anchors[configurations[currentTheme][1][0]][1], (H - h) / date_text_anchors[configurations[currentTheme][1][1]][1] + 100), 
+            now.strftime("%B") + " " + str(now.day) + " " + str(now.year), (255, 255, 255), font=font2)
 
-    # bottom left add signature: you can change this if you want
-    draw.text((3200, 2000), "Smart Wallpaper", (255, 255, 255),
-              font=font3)  # positioning was more or less trial and error.
-    draw.text((3280, 2100), "by Clarence Yang", (255, 255, 255), font=font2)
+    if (configurations[currentTheme][2]):
+        # bottom left add signature: you can change this if you want
+        draw.text((3300, 2000), "Smart Wallpaper", (255, 255, 255),font=font2)  
+        draw.text((3300, 2060), "by Clarence Yang", (255, 255, 255), font=font4)
+
+    if (configurations[currentTheme][3]):
+        # the compile time text
+        w, h = draw.textsize("Updated: {}".format(now.strftime("%Y-%m-%d %H:%M:%S")), font=font4)
+        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] + 40, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 450), 
+                "Updated: {}".format(now.strftime("%Y-%m-%d %H:%M:%S")), (255, 255, 255), font=font4)  # draw the day text
 
     # save image and set it as the current wallpaper
     img.save(OK_WALLPAPER)
