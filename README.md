@@ -5,7 +5,7 @@
 </h1>
 <hr>
 <p align="center">
-    <img src="https://img.shields.io/badge/os-linux%2C%20windows-blue.svg"> 
+    <img src="https://img.shields.io/badge/os-linux%2C%20windows%2C%20macos-blue.svg"> 
     <img src="https://img.shields.io/github/stars/yangman946/WallPaperChanger?color=ccf">
     <img src="https://img.shields.io/badge/license-MIT-dfd.svg">
     <img src="https://img.shields.io/github/contributors/yangman946/WallPaperChanger?color=9ea">
