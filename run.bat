@@ -4,4 +4,4 @@
 cd %~dp0
 
 @REM pythonw or python-window-mode doesnt show the console
-start /MIN pythonw -m wallpaperChanger.mainScript
+start /MIN pythonw mainScript.py

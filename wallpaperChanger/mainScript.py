@@ -20,8 +20,8 @@ from urllib.request import urlopen, Request
 import requests
 from PIL import Image, ImageFont, ImageDraw
 
-from wallpaperChanger import wallpaper
-from wallpaperChanger.settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
+import wallpaper
+from settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
 
 from datetime import datetime
 from dateutil import tz
@@ -172,7 +172,7 @@ def getFailed():
         img = Image.new("RGB", (w, h))
         now = datetime.now()
         img1 = ImageDraw.Draw(img)
-        img1.rectangle([(0, 0), img.size], fill=(102, 102, 102))  # draw the background as a plain colour
+        img1.rectangle([(0, 0), img.size], fill=(220, 118, 51 ))  # draw the background as a plain colour
 
         W, H = img.size
 

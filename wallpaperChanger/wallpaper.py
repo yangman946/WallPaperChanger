@@ -2,9 +2,9 @@ import random
 from pathlib import Path
 from typing import List
 
-import pywal.wallpaper
+from pywal import wallpaper
 
-from wallpaperChanger import settings
+import settings
 
 
 def set_wallpaper(file: Path):
@@ -14,8 +14,9 @@ def set_wallpaper(file: Path):
     """
     if not file.exists() or not file.is_file():
         raise FileNotFoundError(f"'{file}' was not found.")
+    
+    wallpaper.change(str(file))
 
-    pywal.wallpaper.change(str(file))
 
 
 def get_wallpaper_images(time_of_day: str, weather_condition: str) -> List[Path]:
