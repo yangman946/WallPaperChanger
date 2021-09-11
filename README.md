@@ -47,14 +47,14 @@ You can run this script two ways:
 <ul>
   <li>Via the <code>run.bat</code> script</li>
     <ul>
-        <li>Change the first line CD {your file location} to the file location of <code>run.bat</code> </li>
+        <li>Change the first line with <code>%~dp0</code> to the file location of <code>mainScript.py</code> </li>
         <li>and use Windows Task scheduler to periodically run the <code>run.bat</code> file. You could make the script run once every hour. </li>
         <li>Or import the provided .xml file into task scheduler (change path to your batch file)</li>
     </ul>
   <li>or Via the command line
     <ul>
-      <li>CD to your directory</li>
-      <li>run <code>python -m wallpaperChanger.mainScript</code> </li>
+      <li>CD to the file location of <code>mainScript.py</code></li>
+      <li>run <code>python mainScript.py</code> </li>
     </ul>
   </li>
 </ul>
