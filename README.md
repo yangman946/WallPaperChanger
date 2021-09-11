@@ -30,34 +30,31 @@ This Python script changes your desktop wallpaper based on the weather.
 <br>
 
 ## Running ⚡
-You need:
-<ul>
-  <li>install requirements: <code>pip install -r requirements.txt</code> </li>
-  <li>Image url for weather widget: customise your own widget here: https://www.theweather.com/</li>
-  <li>Your own api key for openweather: https://openweathermap.org/api </li>
-</ul>
 
+You need:
+
+- install requirements: `pip install -r requirements.txt`
+- Your own api key for openweather: https://openweathermap.org/api
+- (Optional) Image url for weather widget: customise your own widget here: https://www.theweather.com/
 
 refer to `mainScript.py` for where to insert these values. 
 
-<br>
-
 You can run this script two ways:
 
-<ul>
-  <li>Via the <code>run.bat</code> script</li>
-    <ul>
-        <li>Change the first line with <code>%~dp0</code> to the file location of <code>mainScript.py</code> </li>
-        <li>and use Windows Task scheduler to periodically run the <code>run.bat</code> file. You could make the script run once every hour. </li>
-        <li>Or import the provided .xml file into task scheduler (change path to your batch file)</li>
-    </ul>
-  <li>or Via the command line
-    <ul>
-      <li>CD to the file location of <code>mainScript.py</code></li>
-      <li>run <code>python mainScript.py</code> </li>
-    </ul>
-  </li>
-</ul>
+### Via the `run.bat` script
+
+You can either run the file normally or use the windows task scheduler to run it periodically.
+A premade windows task scheduler xml file is provided in the project root.
+
+
+### Via the command-line
+
+- Open the project in your terminal of choice (or use `cd` to move to the project root)
+- Run the app using the following command.
+
+  ```bash
+  python -m wallpaperChanger
+  ```
 
 <br>
 <br>
