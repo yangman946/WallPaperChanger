@@ -1,4 +1,5 @@
 from .mainScript import main
+from .settings import GENERATED_DIR
 
 
 if __name__ == '__main__':

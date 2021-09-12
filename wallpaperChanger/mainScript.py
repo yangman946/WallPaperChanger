@@ -20,8 +20,8 @@ from urllib.request import urlopen, Request
 import requests
 from PIL import Image, ImageFont, ImageDraw
 
-import wallpaper
-from settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
+from . import wallpaper
+from .settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
 
 from datetime import datetime
 from dateutil import tz

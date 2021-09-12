@@ -4,7 +4,7 @@ from typing import List
 
 from pywal import wallpaper
 
-import settings
+from . import settings
 
 
 def set_wallpaper(file: Path):
