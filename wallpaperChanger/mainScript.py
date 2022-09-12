@@ -13,9 +13,11 @@ Make sure you edit the run.bat file to include the file location of the batch sc
 
 12/09/2022 reboot: what im adding
 - images from API
+- a live clock - will add a new batch file that can be run every minute from the scheduler to just change the time
 """
 
 # imports
+
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from urllib.request import urlopen, Request
@@ -61,7 +63,8 @@ date_text_anchors = { # anchor factors
 font = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-{}.ttf").format(configurations[currentTheme][5]), 120)
 font2 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-{}.ttf").format(configurations[currentTheme][5]), 50)
 font3 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-{}.ttf").format(configurations[currentTheme][5]), 70)
-font4 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-{}.ttf").format(configurations[currentTheme][5]), 30)
+font4 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/Montserrat-{}.ttf").format(configurations[currentTheme][5]), 50)
+font5 = ImageFont.truetype(str(ASSETS_DIR / "fonts/Montserrat/{}.ttf").format("NotoEmoji-Regular"), 70)
 
 # weather data: work on this <-- add temperature functions
 City = ""
@@ -72,6 +75,21 @@ weather_ID = 0
 
 # image brightness
 brightness = 0.4
+
+clock = {
+    1: "🕐",
+    2: "🕑",
+    3: "🕒",
+    4: "🕓",
+    5: "🕔",
+    6: "🕕",
+    7: "🕖",
+    8: "🕗",
+    9: "🕘",
+    10: "🕙",
+    11: "🕚",
+    12: "🕛",
+}
 
 
 def main():  # main function
@@ -249,9 +267,15 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
 
     if (configurations[currentTheme][3]):
         # the compile time text
-        w, h = draw.textsize("Updated: {}".format(now.strftime("%Y-%m-%d %H:%M:%S")), font=font4)
-        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] + 40, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 450), 
-                "Updated: {}".format(now.strftime("%Y-%m-%d %H:%M:%S")), (255, 255, 255), font=font4)  # draw the day text
+        w, h = draw.textsize("{}".format(now.strftime("%H:%M")), font=font4)
+        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 50, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
+                "{}".format(now.strftime("%H:%M")), (255, 255, 255), font=font4)  # draw the day text
+
+        w, h = draw.textsize(clock[int(now.strftime("%I"))], font=font5)
+        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 180, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1650), 
+                clock[int(now.strftime("%I"))], (255, 255, 255), font=font5)  # draw the day text
+
+        
 
     # save image and set it as the current wallpaper
     img.save(OK_WALLPAPER)
