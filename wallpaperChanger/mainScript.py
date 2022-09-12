@@ -10,6 +10,9 @@ https://openweathermap.org/api
 
 You can run this script using a batch file and run it periodically (e.g., every hour) through windows task scheduler.
 Make sure you edit the run.bat file to include the file location of the batch script. 
+
+12/09/2022 reboot: what im adding
+- images from API
 """
 
 # imports
@@ -26,6 +29,9 @@ from .settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, 
 from datetime import datetime
 from dateutil import tz
 
+offline = False # enable this to prevent API usage
+
+
 # Step 1: get your custom weather widget from https://www.theweather.com/, 
 # change the syles to your likings, Recommened transparent background and white foreground
 pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather url here
@@ -37,10 +43,10 @@ CurrentUrl = f"http://api.openweathermap.org/data/2.5/weather?q={CITY}&mode=xml&
 # widget location / date text location (x, y) / water mark show / load time show / load time location / font style (see fonts)
 currentTheme = "default"
 configurations = {
-    "default": [(3350, 200), ["center", "center"], True, True, ["right", "top"], "light"],
-    "middle-left": [(3350, 200), ["left", "center"], True, True, ["right", "top"], "light"],
-    "middle-right": [(3350, 200), ["right", "center"], True, True, ["right", "top"], "light"],
-    "custom": [(3350, 200), ["left", "bottom"], True, True, ["right", "top"], "Medium"], # change this one to your needs, or define more themes
+    "default": [(3350, 200), ["center", "center"], False, True, ["right", "top"], "light"],
+    "middle-left": [(3350, 200), ["left", "center"], False, True, ["right", "top"], "light"],
+    "middle-right": [(3350, 200), ["right", "center"], False, True, ["right", "top"], "light"],
+    "custom": [(3350, 200), ["left", "bottom"], True, False, ["right", "top"], "Medium"], # change this one to your needs, or define more themes
 }
 
 date_text_anchors = { # anchor factors

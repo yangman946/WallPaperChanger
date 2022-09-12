@@ -31,6 +31,7 @@ share/python-wheels/
 MANIFEST
 
 run2.bat
+testrun.bat
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
