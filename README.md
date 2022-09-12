@@ -61,6 +61,7 @@ A premade windows task scheduler xml file is provided in the project root.
 
 ## Customising Wallpapers ✏️
 
+There's a 50% chance that the script will use an API to fetch wallpapers, otherwise it will choose local files.
 Currently, the `mainScript.py` script supports the following weather states:
 <ul>
   <li>Clear </li>
@@ -118,31 +119,4 @@ Here, you can add custom layouts or use existing ones. Each layout requires six 
 
 If you wish to contribute to this project, send a pull request, and I will look at it. Here’s an easy and quick [video guide](https://youtu.be/waEb2c9NDL8) for learning how to contribute via GitHub.
 
-<br>
-<br>
 
-## TODO List ✔️
-
-This project is a work in progress and will expect frequent updates.
-<br>
-<ul>
-  <li>Expand wallpaper folders.</li>
-  <li><s>Add a sunrise/sunset API to change the daystate. </s></li>
-  <li>Add temperature conditions and assign certain wallpapers to temperature. </li>
-  <li><s>Make the program run without appearing (invisible)</s></li>
-</ul>
-
-<br>
-<br>
-
-## Possible future improvements ✅
-<br>
-<ul>
-  <li>Find a wallpaper API, reduces need for having folders full of images</li>
-  <li>Show news or other information along with the weather.</li>
-  <li>Export as an executable</li>
-  <li><s>Make this project compatible with non-windows systems.</s></li>
-</ul>
-
-<br>
-<br>
