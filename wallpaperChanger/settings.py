@@ -7,6 +7,7 @@ BASE_DIR = Path(__file__).parent.parent
 ASSETS_DIR = BASE_DIR / 'assets'
 GENERATED_DIR = BASE_DIR / 'generated'
 
+TEMPLATE = GENERATED_DIR / 'template.jpeg'
 DOWNLOAD = GENERATED_DIR / 'download.jpeg'
 OK_WALLPAPER = GENERATED_DIR / 'wallpaper.jpeg'
 ERROR_WALLPAPER = GENERATED_DIR / 'error.jpeg'

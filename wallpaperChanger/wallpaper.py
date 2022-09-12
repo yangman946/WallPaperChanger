@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import List
 
 from pywal import wallpaper
-import ctypes # test
+#import ctypes # test
 import requests
 import shutil
 from . import settings
@@ -19,8 +19,8 @@ def set_wallpaper(file: Path):
         raise FileNotFoundError(f"'{file}' was not found.")
 
 
-    #wallpaper.change(str(file))
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, str(file), 3) #DEBUG
+    wallpaper.change(str(file))
+    #ctypes.windll.user32.SystemParametersInfoW(20, 0, str(file), 3) #DEBUG
 
 
 

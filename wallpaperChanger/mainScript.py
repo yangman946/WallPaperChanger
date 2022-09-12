@@ -26,7 +26,7 @@ import requests
 from PIL import Image, ImageFont, ImageDraw
 
 from . import wallpaper
-from .settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY
+from .settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY, TEMPLATE
 
 from datetime import datetime
 from dateutil import tz
@@ -90,6 +90,29 @@ clock = {
     11: "🕚",
     12: "🕛",
 }
+
+def refresh(): #function to update the clock
+    img = Image.open(TEMPLATE)
+    W, H = img.size
+    draw = ImageDraw.Draw(img)
+    now = datetime.now()
+    if (configurations[currentTheme][3]):
+        # the compile time text
+        w, h = draw.textsize("{}".format(now.strftime("%H:%M")), font=font4)
+        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 50, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
+                "{}".format(now.strftime("%H:%M")), (255, 255, 255), font=font4)  # draw the day text
+
+        w, h = draw.textsize(clock[int(now.strftime("%I"))], font=font5)
+        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 180, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1650), 
+                clock[int(now.strftime("%I"))], (255, 255, 255), font=font5)  # draw the day text
+
+
+
+    # save image and set it as the current wallpaper
+    img.save(OK_WALLPAPER)
+    wallpaper.set_wallpaper(OK_WALLPAPER)
+    
+    
 
 
 def main():  # main function
@@ -265,21 +288,9 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
         draw.text((3300, 2000), "Smart Wallpaper", (255, 255, 255),font=font2)  
         draw.text((3300, 2060), "by Clarence Yang", (255, 255, 255), font=font4)
 
-    if (configurations[currentTheme][3]):
-        # the compile time text
-        w, h = draw.textsize("{}".format(now.strftime("%H:%M")), font=font4)
-        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 50, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
-                "{}".format(now.strftime("%H:%M")), (255, 255, 255), font=font4)  # draw the day text
+    img.save(TEMPLATE)
 
-        w, h = draw.textsize(clock[int(now.strftime("%I"))], font=font5)
-        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 180, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1650), 
-                clock[int(now.strftime("%I"))], (255, 255, 255), font=font5)  # draw the day text
-
-        
-
-    # save image and set it as the current wallpaper
-    img.save(OK_WALLPAPER)
-    wallpaper.set_wallpaper(OK_WALLPAPER)
+    refresh()
 
 
 if __name__ == '__main__':
