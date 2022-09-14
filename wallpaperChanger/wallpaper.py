@@ -37,10 +37,10 @@ def get_random_wallpaper_image(time_of_day: str, weather_condition: str) -> Path
     """Return a path pointing to random wallpaper pertaining to the conditions"""
     url = random.choice(get_wallpaper_images(time_of_day, weather_condition))
     
-    if (random.randint(0,1) == 0): # 50% chance
+    if (random.random() > 0.1): # 90% chance
         try: # get api
-            url = f"https://source.unsplash.com/random/3936x2624?{time_of_day}%20{weather_condition}"
-            r = requests.get(url, allow_redirects=True, stream=True)
+            ur = f"https://source.unsplash.com/random/3936x2624?{time_of_day}%20{weather_condition}"
+            r = requests.get(ur, allow_redirects=True, stream=True)
             if r.status_code == 200:
                 with open(settings.DOWNLOAD, 'wb') as f:
                     shutil.copyfileobj(r.raw, f)
