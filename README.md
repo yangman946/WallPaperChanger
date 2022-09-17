@@ -19,7 +19,7 @@
 <br>
 
 ## Description ⛈️
-This Python script changes your desktop wallpaper based on the weather.
+This Python script changes your desktop wallpaper depending on the time and weather.
 <br>
 <br>
   
@@ -33,7 +33,7 @@ This Python script changes your desktop wallpaper based on the weather.
 
 You need:
 
-- install requirements: `pip install -r requirements.txt`
+- to install requirements: `pip install -r requirements.txt`
 - Your own api key for openweather: https://openweathermap.org/api
 - (Optional) Image url for weather widget: customise your own widget here: https://www.theweather.com/
 
