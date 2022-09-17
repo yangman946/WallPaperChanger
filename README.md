@@ -61,7 +61,7 @@ A premade windows task scheduler xml file is provided in the project root.
 
 ## Customising Wallpapers ✏️
 
-There's a 50% chance that the script will use an API to fetch wallpapers, otherwise it will choose local files.
+By default, the script will use an API to fetch wallpapers, otherwise it will choose local files.
 Currently, the `mainScript.py` script supports the following weather states:
 <ul>
   <li>Clear </li>
