@@ -2,6 +2,7 @@ import errno
 import random
 from pathlib import Path
 from typing import List
+import PIL
 
 from pywal import wallpaper
 #import ctypes # test
@@ -36,9 +37,12 @@ def get_wallpaper_images(time_of_day: str, weather_condition: str) -> List[Path]
 def get_random_wallpaper_image(time_of_day: str, weather_condition: str) -> Path:
     """Return a path pointing to random wallpaper pertaining to the conditions"""
     url = random.choice(get_wallpaper_images(time_of_day, weather_condition))
+
+
     
     if (random.random() > 0.1): # 90% chance
         try: # get api
+            
             ur = f"https://source.unsplash.com/random/3936x2624?{time_of_day}%20{weather_condition}"
             r = requests.get(ur, allow_redirects=True, stream=True)
             if r.status_code == 200:
@@ -48,5 +52,7 @@ def get_random_wallpaper_image(time_of_day: str, weather_condition: str) -> Path
         except IOError:
             url = random.choice(get_wallpaper_images(time_of_day, weather_condition))
 
+        if PIL.Image.open(settings.DOWNLOAD).size[0] < 3000:
+            url = random.choice(get_wallpaper_images(time_of_day, weather_condition))
         
     return url
