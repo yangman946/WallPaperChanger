@@ -40,7 +40,7 @@ def get_random_wallpaper_image(time_of_day: str, weather_condition: str) -> Path
 
 
     
-    if (random.random() > 0.1): # 90% chance
+    if (settings.OFFLINE == False): 
         try: # get api
             
             ur = f"https://source.unsplash.com/random/3936x2624?{time_of_day}%20{weather_condition}"

@@ -19,10 +19,27 @@
 <br>
 
 ## Description ⛈️
-This Python script changes your desktop wallpaper depending on the time and weather.
+WallPaperChanger is a Python script that changes your desktop wallpaper with your current time and weather.
 <br>
 <br>
-  
+
+### Features
+
+Current features:
+<ul>
+  <li>Images API - new and unique wallpaper every time </li>
+  <li>Weather API - changes wallpaper depending on weather and time (sunrise/sunset) </li>
+  <li>Weather widget - Shows weather forecast </li>
+  <li>Live clock </li>
+</ul>
+
+Future features:
+<ul>
+  <li>Spotify API - wallpaper will display the song you are currently listening to </li>
+  <li>GUI Wizard - will enable users to easily setup this script and customise the layout </li>
+  <li>Add news </li>
+</ul>
+
 ## Cloning 🌀
 
 `$ git clone https://github.com/yangman946/WallPaperChanger`
@@ -34,18 +51,20 @@ This Python script changes your desktop wallpaper depending on the time and weat
 You need:
 
 - to install requirements: `pip install -r requirements.txt`
-- Your own api key for openweather: https://openweathermap.org/api
-- (Optional) Image url for weather widget: customise your own widget here: https://www.theweather.com/
+- Your own api key from openweather: https://openweathermap.org/api
+- (Optional) Image url for a weather widget: customise your own widget here: https://www.theweather.com/
 
-refer to `mainScript.py` for where to insert these values. 
+refer to `settings.py` for where to insert these values. 
 
-You can run this script two ways:
+You can run this script in two ways:
 
-### Via the `run.bat` script
+### Via the `run.bat` batch script
 
-You can either run the file normally or use the windows task scheduler to run it periodically.
+You can either run the script manually or via a task scheduler to run it periodically (i.e., every hour).
+Make sure to edit the `run.bat` script to add the directory for which the batch script is located.
 A premade windows task scheduler xml file is provided in the project root.
 
+You may also decide to run the `refresh.bat` script every minute to update the live clock. 
 
 ### Via the command-line
 
@@ -61,7 +80,7 @@ A premade windows task scheduler xml file is provided in the project root.
 
 ## Customising Wallpapers ✏️
 
-By default, the script will use an API to fetch wallpapers, otherwise it will choose local files.
+By default, the script will use the unsplashed API to fetch online wallpapers, otherwise it will choose local files.
 Currently, the `mainScript.py` script supports the following weather states:
 <ul>
   <li>Clear </li>
@@ -71,7 +90,10 @@ Currently, the `mainScript.py` script supports the following weather states:
 </ul>
 
 <br>
-You will find separate pairs of folders for each weather condition (day and night). 
+
+### Offline Only
+
+You will find separate folders for each weather condition (day/night). 
 These folders contain jpeg images (3936x2624 pixels) each labeled from 1 to the number of images in the folder. 
 If you wish to replace images, ensure that:
 <br>
@@ -83,6 +105,8 @@ If you wish to replace images, ensure that:
 </ul>
 <br>
 <br>
+
+### Customising layouts
 
 To customise the layout of the wallpaper, refer to the `configurations` dictionary at `mainScript.py`.
 Here, you can add custom layouts or use existing ones. Each layout requires six parameters:
@@ -117,6 +141,6 @@ Here, you can add custom layouts or use existing ones. Each layout requires six 
 
 ## Contributing 👍
 
-If you wish to contribute to this project, send a pull request, and I will look at it. Here’s an easy and quick [video guide](https://youtu.be/waEb2c9NDL8) for learning how to contribute via GitHub.
+If you wish to contribute to this project, send a pull request, and I will review it ASAP. Here’s an easy and quick [video guide](https://youtu.be/waEb2c9NDL8) for learning how to contribute via GitHub.
 
 

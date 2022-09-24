@@ -1,6 +1,6 @@
 """
-daily wallpaper generator: by clarence yang 4/09/20
-creates a wallpaper depending on the weather!
+WallPaperChanger by Clarence Yang 4/09/20
+Creates a wallpaper depending on the weather!
 
 image url for weather: customise your own here:
 https://www.theweather.com/
@@ -8,12 +8,13 @@ https://www.theweather.com/
 you'll need your own api key for openweather:
 https://openweathermap.org/api
 
-You can run this script using a batch file and run it periodically (e.g., every hour) through windows task scheduler.
+You can run this script via a batch file or run it periodically (e.g., every hour) through a task scheduler.
 Make sure you edit the run.bat file to include the file location of the batch script. 
 
-12/09/2022 reboot: what im adding
+12/09/2022 reboot: what im planning on adding
 - images from API
 - a live clock - will add a new batch file that can be run every minute from the scheduler to just change the time
+- spotify integration - will show a widget for whatever song you are playing
 """
 
 # imports
@@ -26,24 +27,17 @@ import requests
 from PIL import Image, ImageFont, ImageDraw
 
 from . import wallpaper
-from .settings import ASSETS_DIR, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY, TEMPLATE
+from .settings import ASSETS_DIR, CURRENT_THEME, ERROR_BG, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY, TEMPLATE, PIC_URL, OFFLINE
 
 from datetime import datetime
 from dateutil import tz
 
-offline = False # enable this to prevent API usage
 
-
-# Step 1: get your custom weather widget from https://www.theweather.com/, 
-# change the syles to your likings, Recommened transparent background and white foreground
-pic_url = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather url here
-
-# Step 2: get your api key from openweather: https://openweathermap.org/api
+pic_url = PIC_URL
 CurrentUrl = f"http://api.openweathermap.org/data/2.5/weather?q={CITY}&mode=xml&units=metric&APPID={API_KEY}"  # <--- change parameters from settings.py
 
-# Step 3 (optional): choose your styles/themes (see README.md)
 # widget location / date text location (x, y) / water mark show / load time show / load time location / font style (see fonts)
-currentTheme = "default"
+currentTheme = CURRENT_THEME
 configurations = {
     "default": [(3350, 200), ["center", "center"], False, True, ["right", "top"], "light"],
     "middle-left": [(3350, 200), ["left", "center"], False, True, ["right", "top"], "light"],
@@ -99,12 +93,12 @@ def refresh(): #function to update the clock
     if (configurations[currentTheme][3]):
         # the compile time text
         w, h = draw.textsize("{}".format(now.strftime("%H:%M")), font=font4)
-        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 50, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
-                "{}".format(now.strftime("%H:%M")), (255, 255, 255), font=font4)  # draw the day text
+        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 100, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
+                "{}".format(now.strftime("%I:%M %p")), (255, 255, 255), font=font4)  # 
 
         w, h = draw.textsize(clock[int(now.strftime("%I"))], font=font5)
-        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 180, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1650), 
-                clock[int(now.strftime("%I"))], (255, 255, 255), font=font5)  # draw the day text
+        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 220, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1650), 
+                clock[int(now.strftime("%I"))], (255, 255, 255), font=font5)  # 
 
 
 
@@ -123,37 +117,49 @@ def main():  # main function
         # getting our weather data
         sunrise = 6
         sunset = 18
-        response = requests.get(CurrentUrl)  # first get current weather
-        with (GENERATED_DIR / 'feed.xml').open('wb') as file:
-            file.write(
-                response.content)  # write weather data to feed.xml <-- this will be automatically created if it doesnt exist.
-        tree = ET.parse(GENERATED_DIR / 'feed.xml')
-        root = tree.getroot()
-        for child in root:
+        weather_ID = 800
 
-            if child.tag == "weather":
-                weather_ID = child.attrib[
-                    'number']  # weather ID, the weather condition is stored in a unique ID:
-                # https://openweathermap.org/weather-conditions
+        if (OFFLINE == False):
+            try:
 
-            if child.tag == "city":  # get sunrise and sunset times
-                for item in child:
-                    if item.tag == "sun":
-                        sunrise = datetime.strptime(item.attrib['rise'], '%Y-%m-%dT%H:%M:%S')
-                        sunset = datetime.strptime(item.attrib['set'], '%Y-%m-%dT%H:%M:%S')
+                response = requests.get(CurrentUrl)  # first get current weather
+                with (GENERATED_DIR / 'feed.xml').open('wb') as file:
+                    file.write(
+                        response.content)  # write weather data to feed.xml <-- this will be automatically created if it doesnt exist.
+                tree = ET.parse(GENERATED_DIR / 'feed.xml')
+                root = tree.getroot()
+                for child in root:
+
+                    if child.tag == "weather":
+                        weather_ID = child.attrib[
+                            'number']  # weather ID, the weather condition is stored in a unique ID:
+                        # https://openweathermap.org/weather-conditions
+
+                    if child.tag == "city":  # get sunrise and sunset times
+                        for item in child:
+                            if item.tag == "sun":
+                                sunrise = datetime.strptime(item.attrib['rise'], '%Y-%m-%dT%H:%M:%S')
+                                sunset = datetime.strptime(item.attrib['set'], '%Y-%m-%dT%H:%M:%S')
+                
+                        # sunrise and sunset are in utc
+                from_zone = tz.tzutc()
+                to_zone = tz.tzlocal()
+                sunrise = sunrise.replace(tzinfo=from_zone)
+                sunset = sunset.replace(tzinfo=from_zone)
+                sunrise = sunrise.astimezone(to_zone).hour
+                sunset = sunset.astimezone(to_zone).hour
+            except requests.ConnectionError:
+                sunrise = 6
+                sunset = 18
+                weather_ID = 800 # default to clear
+            
 
         # getting time
         hour = getHour()
 
-        # sunrise and sunset are in utc
-        from_zone = tz.tzutc()
-        to_zone = tz.tzlocal()
-        sunrise = sunrise.replace(tzinfo=from_zone)
-        sunset = sunset.replace(tzinfo=from_zone)
-        sunrise = sunrise.astimezone(to_zone)
-        sunset = sunset.astimezone(to_zone)
 
-        if hour < sunrise.hour or hour > sunset.hour:  # change this to find a sun rise sun set api
+
+        if hour < sunrise or hour > sunset:  # change this to find a sun rise sun set api
             # night
             dayState = "night"
             brightness = 0.4
@@ -181,9 +187,6 @@ def main():  # main function
             weather_code = "thunder"
 
         createWallpaper(dayState, weather_code)  # create the wallpaper
-    except requests.ConnectionError:
-        # inform them of the specific error here (based off the error code)
-        getFailed()
     except Exception as e:
         print(e)
         getFailed()
@@ -192,8 +195,8 @@ def main():  # main function
 # failed, see which type of fail it is
 def getFailed():
     try:
-        img = Image.open(ERROR_WALLPAPER)
-        img = img.point(lambda p: p * brightness)  # set brightness of the error wallpaper. 
+        img = Image.open(ERROR_BG)
+        #img = img.point(lambda p: p * brightness)  # set brightness of the error wallpaper. 
         draw = ImageDraw.Draw(img)
         now = datetime.now()
 
@@ -209,9 +212,6 @@ def getFailed():
         draw.text(((W - w) / 2, (H - h) / 2 + 100), now.strftime("%B") + " " + str(now.day) + " " + str(now.year),
                   (255, 255, 255), font=font2)  # date text: the date
 
-        # Bottom right.
-        draw.text((3200, 2000), "Smart Wallpaper", (255, 255, 255), font=font3)
-        draw.text((3280, 2100), "by Clarence Yang", (255, 255, 255), font=font2)
         img.save(ERROR_WALLPAPER)
     except Exception as e:  # the above code failed: perhaps the error.jpeg doesn't exist.
         print(e)  # debug
@@ -232,9 +232,6 @@ def getFailed():
         img1.text(((W - w) / 2, (H - h) / 2 + 100), now.strftime("%B") + " " + str(now.day) + " " + str(now.year),
                   (255, 255, 255), font=font2)  # date text
 
-        # bottom right
-        img1.text((3200, 2000), "Smart Wallpaper", (255, 255, 255), font=font3)
-        img1.text((3280, 2100), "by Clarence Yang", (255, 255, 255), font=font2)
         img.save(ERROR_WALLPAPER)
 
     wallpaper.set_wallpaper(ERROR_WALLPAPER)
@@ -257,16 +254,21 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
 
-    im1 = Image.open(urlopen(Request(url=pic_url, headers=headers)))  # get the weather widget 
+    if (OFFLINE == False):
+        try:
+            im1 = Image.open(urlopen(Request(url=pic_url, headers=headers)))  # get the weather widget 
+            
+            # resizing and positioning the weather widget
+            baseheight = 600
+            hpercent = (baseheight / float(im1.size[1]))
+            wsize = int((float(im1.size[0]) * float(hpercent)))
+            im1 = im1.resize((wsize, baseheight))
+            img.paste(im1, (configurations[currentTheme][0]), im1) # widget location
+        except:
+            pass
 
     #select layout
 
-    # resizing and positioning the weather widget
-    baseheight = 600
-    hpercent = (baseheight / float(im1.size[1]))
-    wsize = int((float(im1.size[0]) * float(hpercent)))
-    im1 = im1.resize((wsize, baseheight))
-    img.paste(im1, (configurations[currentTheme][0]), im1) # widget location
 
     # get current date and time. 
     draw = ImageDraw.Draw(img)
