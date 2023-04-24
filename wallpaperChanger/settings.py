@@ -27,11 +27,12 @@ CURRENT_THEME = "default"
 # Set this to true if you do not wish to use any APIs
 OFFLINE = False 
 
-
+ISWINDOWS = (os.name == 'nt')
 
 BASE_DIR = Path(__file__).parent.parent
 ASSETS_DIR = BASE_DIR / 'assets'
 GENERATED_DIR = BASE_DIR / 'generated'
+DEBUG_DIR =  BASE_DIR / 'debug'
 
 TEMPLATE = GENERATED_DIR / 'template.jpeg'
 DOWNLOAD = GENERATED_DIR / 'download.jpeg'

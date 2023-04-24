@@ -11,10 +11,10 @@ https://openweathermap.org/api
 You can run this script via a batch file or run it periodically (e.g., every hour) through a task scheduler.
 Make sure you edit the run.bat file to include the file location of the batch script. 
 
-12/09/2022 reboot: what im planning on adding
-- images from API
-- a live clock - will add a new batch file that can be run every minute from the scheduler to just change the time
-- spotify integration - will show a widget for whatever song you are playing
+Changelogs (24/04/2023):
+- added sunrise and sunset
+- added custom batch files for dislike wallpapers
+
 """
 
 # imports
@@ -27,7 +27,7 @@ import requests
 from PIL import Image, ImageFont, ImageDraw
 
 from . import wallpaper
-from .settings import ASSETS_DIR, CURRENT_THEME, ERROR_BG, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY, TEMPLATE, PIC_URL, OFFLINE
+from .settings import ASSETS_DIR, CURRENT_THEME, ERROR_BG, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY, TEMPLATE, PIC_URL, OFFLINE,  ISWINDOWS
 
 from datetime import datetime
 from dateutil import tz
@@ -93,8 +93,13 @@ def refresh(): #function to update the clock
     if (configurations[currentTheme][3]):
         # the compile time text
         w, h = draw.textsize("{}".format(now.strftime("%H:%M")), font=font4)
-        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 100, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
-                "{}".format(now.strftime("%I:%M %p")), (255, 255, 255), font=font4)  # 
+
+        if ISWINDOWS:
+            draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 100, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
+                    "{}".format(now.strftime("%#I:%M %p")), (255, 255, 255), font=font4)  # 
+        else:
+            draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 100, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
+                    "{}".format(now.strftime("%-I:%M %p")), (255, 255, 255), font=font4)  # 
 
         w, h = draw.textsize(clock[int(now.strftime("%I"))], font=font5)
         draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 220, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1650), 
@@ -153,21 +158,31 @@ def main():  # main function
                 sunset = 18
                 weather_ID = 800 # default to clear
             
-
+   
+        print(f"{sunrise} | {sunset}")
         # getting time
         hour = getHour()
 
-
+        dayState = []
 
         if hour < sunrise or hour > sunset:  # change this to find a sun rise sun set api
             # night
-            dayState = "night"
+            dayState.append("night")
             brightness = 0.4
             print("is day: false: {}".format(sunrise))
         else:
             brightness = 0.7
-            dayState = "day"
+            dayState.append("day")
             print("is day: true")
+
+        if hour == sunrise:
+            dayState.append("sunrise")
+            brightness = 0.5
+            print("sunrise")
+        elif hour == sunset:
+            dayState.append("sunset")
+            brightness = 0.5
+            print("sunset")
 
         weather_code = ""  # current weather
         # checking the type of weather: obviously you could go deeper and have more images,
