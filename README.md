@@ -13,37 +13,29 @@
 </p>
 
 <p align="center">
-    <img src=".github/images/wallpaper.jpeg" alt="wallpaper">
+    <img src="https://github.com/yangman946/WallPaperChanger/blob/main/generated/wallpaper.jpeg" alt="wallpaper">
 </p>
 
 <br>
 
 ## Description ⛈️
-WallPaperChanger is a Python script that changes your desktop wallpaper with your current time and weather.
-<br>
+WallPaperChanger is a Python script that changes your desktop wallpaper according to your current time and weather.
 <br>
 
-### Features
+### Features 
 
-Current features:
 <ul>
   <li>Images API - new and unique wallpaper every time </li>
-  <li>Weather API - changes wallpaper depending on weather and time (sunrise/sunset) </li>
+  <li>Weather API - changes wallpaper depending on weather (rain/mist/clear/thunder) and time (sunrise/day/sunset/night) </li>
   <li>Weather widget - Shows weather forecast </li>
-  <li>Live clock </li>
+  <li>Displayed time and date + refreshable clock </li>
 </ul>
+<br>
 
-Future features:
-<ul>
-  <li>Spotify API - wallpaper will display the song you are currently listening to </li>
-  <li>GUI Wizard - will enable users to easily setup this script and customise the layout </li>
-  <li>Add news </li>
-</ul>
 
 ## Cloning 🌀
 
 `$ git clone https://github.com/yangman946/WallPaperChanger`
-<br>
 <br>
 
 ## Running ⚡
@@ -54,7 +46,11 @@ You need:
 - Your own api key from openweather: https://openweathermap.org/api
 - (Optional) Image url for a weather widget: customise your own widget here: https://www.theweather.com/
 
-refer to `settings.py` for where to insert these values. 
+<i>Alternatively you can choose to run WallPaperChanger offline with a selection of default wallpapers.</i>
+
+Refer to `settings.py` for where to insert these values. 
+
+<br>
 
 You can run this script in two ways:
 
@@ -76,20 +72,23 @@ You may also decide to run the `refresh.bat` script every minute to update the l
   ```
 
 <br>
-<br>
 
-## Customising Wallpapers ✏️
+## Miscellaneous 🧑‍💻
 
-By default, the script will use the unsplashed API to fetch online wallpapers, otherwise it will choose local files.
-Currently, the `mainScript.py` script supports the following weather states:
+### Batch files
+
+Various batch files have been included with this project:
+
 <ul>
-  <li>Clear </li>
-  <li>Mist (cloudy)</li>
-  <li>Rain </li>
-  <li>and thunder </li>
+  <li><code>run.bat</code> - changes the wallpaper, can be run from a task scheduler </li>
+  <li><code>refresh.bat</code> - only changes the clock at the bottom right of the wallpaper </li>
+  <li><code>dislike.bat</code> - can add the wallpaper to <code>blacklisted_wallpapers.txt</code>, effectively removing it from ever being seen </li>
 </ul>
 
-<br>
+You can create desktop shortcuts to these batch files for quick and easy access. 
+
+
+
 
 ### Offline Only
 
@@ -103,8 +102,7 @@ If you wish to replace images, ensure that:
   <li>The images are properly labelled {weather state}_{day state}_{image index} </li>
   <li>The images are jpeg images </li>
 </ul>
-<br>
-<br>
+
 
 ### Customising layouts
 
@@ -138,8 +136,9 @@ Here, you can add custom layouts or use existing ones. Each layout requires six 
         <li>See all <a href = "https://github.com/yangman946/WallPaperChanger/tree/main/assets/fonts/Montserrat">fonts</a></li>
     </ul>
 </ol>
+<br>
 
-## Contributing 👍
+## Contributing ❤️
 
 If you wish to contribute to this project, send a pull request, and I will review it ASAP. Here’s an easy and quick [video guide](https://youtu.be/waEb2c9NDL8) for learning how to contribute via GitHub.
 
