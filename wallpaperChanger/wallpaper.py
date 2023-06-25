@@ -6,6 +6,7 @@ from pywal import wallpaper
 import requests
 import shutil
 from . import settings
+import re
 
 
 def set_wallpaper(file: Path):
@@ -49,7 +50,9 @@ def get_random_wallpaper_image(time_of_day, weather_condition: str) -> Path:
 
             while working:
                 with open(f"{settings.DEBUG_DIR}\\blacklisted_wallpapers.txt") as checker:
-                    if str(r.url) in checker.read():
+                    pattern = f"https://images.unsplash.com/(.*?)crop=entropy&cs="
+                    match = re.search(pattern, r.url)
+                    if match.group(1) in checker.read():
                         r = requests.get(ur, allow_redirects=True, stream=True) # repeat search if in blacklisted
                     else:
                         working = False

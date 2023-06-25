@@ -27,10 +27,11 @@ import requests
 from PIL import Image, ImageFont, ImageDraw
 
 from . import wallpaper
-from .settings import ASSETS_DIR, CURRENT_THEME, ERROR_BG, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY, TEMPLATE, PIC_URL, OFFLINE,  ISWINDOWS
+from .settings import ASSETS_DIR, CURRENT_THEME, ERROR_BG, GENERATED_DIR, OK_WALLPAPER, ERROR_WALLPAPER, API_KEY, CITY, TEMPLATE, PIC_URL, OFFLINE,  ISWINDOWS, DEBUG_DIR
 
 from datetime import datetime
 from dateutil import tz
+import re
 
 
 pic_url = PIC_URL
@@ -102,7 +103,7 @@ def refresh(): #function to update the clock
                     "{}".format(now.strftime("%-I:%M %p")), (255, 255, 255), font=font4)  # 
 
         w, h = draw.textsize(clock[int(now.strftime("%I"))], font=font5)
-        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 220, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1650), 
+        draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 250, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1650), 
                 clock[int(now.strftime("%I"))], (255, 255, 255), font=font5)  # 
 
 
@@ -112,6 +113,23 @@ def refresh(): #function to update the clock
     wallpaper.set_wallpaper(OK_WALLPAPER)
     
     
+def dislike(): # function to dislike the wallpaper
+    with open(f"{DEBUG_DIR}\\current_wallpaper.txt", "r") as f:
+        url = f.readline()
+        pattern = f"https://images.unsplash.com/(.*?)crop=entropy&cs="
+        match = re.search(pattern, url)
+        #print(match.group(1))
+    
+    #with open(f"{DEBUG_DIR}\\blacklisted_wallpapers.txt", 'r') as checker:
+    #    lines = checker.readlines()
+
+    with open(f"{DEBUG_DIR}\\blacklisted_wallpapers.txt", 'a') as checker:
+        #for line in lines:
+        #    pattern = f"https://images.unsplash.com/(.*?)crop=entropy&cs="
+        #    match = re.search(pattern, line)
+        checker.write(match.group(1) + "\n")
+    main()  
+
 
 
 def main():  # main function
@@ -270,17 +288,16 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
 
     if (OFFLINE == False):
-        try:
-            im1 = Image.open(urlopen(Request(url=pic_url, headers=headers)))  # get the weather widget 
-            
-            # resizing and positioning the weather widget
-            baseheight = 600
-            hpercent = (baseheight / float(im1.size[1]))
-            wsize = int((float(im1.size[0]) * float(hpercent)))
-            im1 = im1.resize((wsize, baseheight))
-            img.paste(im1, (configurations[currentTheme][0]), im1) # widget location
-        except:
-            pass
+  
+        im1 = Image.open(urlopen(Request(url=pic_url, headers=headers)))  # get the weather widget 
+        
+        # resizing and positioning the weather widget
+        baseheight = 600
+        hpercent = (baseheight / float(im1.size[1]))
+        wsize = int((float(im1.size[0]) * float(hpercent)))
+        im1 = im1.resize((wsize, baseheight))
+        img.paste(im1, (configurations[currentTheme][0]), im1) # widget location
+
 
     #select layout
 

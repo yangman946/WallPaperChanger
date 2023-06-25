@@ -15,7 +15,7 @@ load_dotenv()  # load environment variables.
 
 # Step 1: get your custom weather widget from https://www.theweather.com/, 
 # change the syles to your likings, I recommened transparent background with white foreground
-PIC_URL = "https://www.theweather.com/wimages/foto9a654be7aab09bde5e0fd21539da5f0e.png"  # place custom weather url here
+PIC_URL = "https://www.theweather.com/wimages/fotof2a13ceb9c8380d3890a6797ad8222ac.png"  # place custom weather url here
 
 # Step 2: get your own api key from openweather: https://openweathermap.org/api
 API_KEY = os.getenv("API_KEY", '')  # place openweather api key here <------ from https://openweathermap.org/api

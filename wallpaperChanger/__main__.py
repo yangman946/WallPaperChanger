@@ -1,4 +1,4 @@
-from .mainScript import main, refresh
+from .mainScript import main, refresh, dislike
 from .settings import GENERATED_DIR
 import argparse
 
@@ -12,5 +12,7 @@ if __name__ == '__main__':
 
     if args.mode == "refresh":
         refresh()
+    elif args.mode == "dislike":
+        dislike()
     else:
         main()
