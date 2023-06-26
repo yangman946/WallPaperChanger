@@ -288,15 +288,17 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
 
     if (OFFLINE == False):
-  
-        im1 = Image.open(urlopen(Request(url=pic_url, headers=headers)))  # get the weather widget 
-        
-        # resizing and positioning the weather widget
-        baseheight = 600
-        hpercent = (baseheight / float(im1.size[1]))
-        wsize = int((float(im1.size[0]) * float(hpercent)))
-        im1 = im1.resize((wsize, baseheight))
-        img.paste(im1, (configurations[currentTheme][0]), im1) # widget location
+        try:
+            im1 = Image.open(urlopen(Request(url=pic_url, headers=headers)))  # get the weather widget 
+            
+            # resizing and positioning the weather widget
+            baseheight = 600
+            hpercent = (baseheight / float(im1.size[1]))
+            wsize = int((float(im1.size[0]) * float(hpercent)))
+            im1 = im1.resize((wsize, baseheight))
+            img.paste(im1, (configurations[currentTheme][0]), im1) # widget location
+        except:
+            pass
 
 
     #select layout
