@@ -43,6 +43,7 @@ def get_random_wallpaper_image(time_of_day, weather_condition: str) -> Path:
         try: # get api
             
             ur = f"https://source.unsplash.com/random/3936x2624?{time_of_day[-1]}%20{weather_condition}"
+            print(ur)
             r = requests.get(ur, allow_redirects=True, stream=True)
             print(r.url)
             
@@ -65,7 +66,7 @@ def get_random_wallpaper_image(time_of_day, weather_condition: str) -> Path:
             f = open(f"{settings.DEBUG_DIR}\\current_wallpaper.txt", "w")
             f.write(str(r.url))
             f.close
-        except IOError:
+        except:
             print("error")
             url = random.choice(get_wallpaper_images(time_of_day[0], weather_condition))
             f = open(f"{settings.DEBUG_DIR}\\current_wallpaper.txt", "w") # debug purposes
