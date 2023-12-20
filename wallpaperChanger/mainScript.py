@@ -291,11 +291,19 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
         try:
             im1 = Image.open(urlopen(Request(url=pic_url, headers=headers)))  # get the weather widget 
             
+            # crop image
+            w, h = im1.size
+            crop_box = (0, 0, w, h-30)
+            im1 = im1.crop(crop_box)
+
             # resizing and positioning the weather widget
             baseheight = 600
             hpercent = (baseheight / float(im1.size[1]))
             wsize = int((float(im1.size[0]) * float(hpercent)))
             im1 = im1.resize((wsize, baseheight))
+
+        
+
             img.paste(im1, (configurations[currentTheme][0]), im1) # widget location
         except:
             pass
