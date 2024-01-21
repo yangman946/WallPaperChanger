@@ -93,8 +93,8 @@ def refresh(): #function to update the clock
     now = datetime.now()
     if (configurations[currentTheme][3]):
         # the compile time text
-        w, h = draw.textsize("{}".format(now.strftime("%H:%M")), font=font4)
-
+        #w, h = draw.textlength("{}".format(now.strftime("%H:%M")), font=font4)
+        w, h = getSize(draw, "{}".format(now.strftime("%H:%M")), font4)
         if ISWINDOWS:
             draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 100, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
                     "{}".format(now.strftime("%#I:%M %p")), (255, 255, 255), font=font4)  # 
@@ -102,7 +102,8 @@ def refresh(): #function to update the clock
             draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 100, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1655), 
                     "{}".format(now.strftime("%-I:%M %p")), (255, 255, 255), font=font4)  # 
 
-        w, h = draw.textsize(clock[int(now.strftime("%I"))], font=font5)
+        #w, h = draw.textlength(clock[int(now.strftime("%I"))], font=font5)
+        w, h = getSize(draw, clock[int(now.strftime("%I"))], font5)
         draw.text(((W - w) / date_text_anchors[configurations[currentTheme][4][0]][0] - 250, (H - h) / date_text_anchors[configurations[currentTheme][4][1]][0] + 1650), 
                 clock[int(now.strftime("%I"))], (255, 255, 255), font=font5)  # 
 
@@ -236,12 +237,13 @@ def getFailed():
         W, H = img.size
 
         # positioning date time text
-        w, h = draw.textsize(now.strftime("%A"), font=font)
+        #w, h = draw.textlength(now.strftime("%A"), font=font)
+        w, h = getSize(draw, now.strftime("%A"), font)
         draw.text(((W - w) / 2, (H - h) / 2), now.strftime("%A"), (255, 255, 255),
                   font=font)  # day text: what day it is
 
-        w, h = draw.textsize(now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font=font2)
-
+        #w, h = draw.textlength(now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font=font2)
+        w, h = getSize(draw, now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font2)
         draw.text(((W - w) / 2, (H - h) / 2 + 100), now.strftime("%B") + " " + str(now.day) + " " + str(now.year),
                   (255, 255, 255), font=font2)  # date text: the date
 
@@ -257,11 +259,12 @@ def getFailed():
         W, H = img.size
 
         # positioning date time text
-        w, h = img1.textsize(now.strftime("%A"), font=font)
+        # w, h = img1.textlength(now.strftime("%A"), font=font)
+        w, h = getSize(img1, now.strftime("%A"), font)
         img1.text(((W - w) / 2, (H - h) / 2), now.strftime("%A"), (255, 255, 255), font=font)
 
-        w, h = img1.textsize(now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font=font2)
-
+        #w, h = img1.textlength(now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font=font2)
+        w, h = getSize(img1, now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font2)
         img1.text(((W - w) / 2, (H - h) / 2 + 100), now.strftime("%B") + " " + str(now.day) + " " + str(now.year),
                   (255, 255, 255), font=font2)  # date text
 
@@ -273,6 +276,12 @@ def getFailed():
 # returns current hour
 def getHour():
     return datetime.now().hour
+
+def getSize(draw, text, font):
+    #W = draw.textlength(text, font=font)
+    #H = font.size
+    _, _, W, H = draw.textbbox((0, 0), text=text, font=font)
+    return W, H
 
 
 def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
@@ -318,12 +327,16 @@ def createWallpaper(daystate, WeatherCode):  # creates wallpaper: clean code?
 
     # draw the day and date
     W, H = img.size
-    w, h = draw.textsize(now.strftime("%A"), font=font)
+    #W = draw.textlength(now.strftime("%A"), font=font)
+    #H = font.size
+
+    w, h = getSize(draw, now.strftime("%A"), font)
     draw.text(((W - w) / date_text_anchors[configurations[currentTheme][1][0]][0], (H - h) / date_text_anchors[configurations[currentTheme][1][1]][0]), 
             now.strftime("%A"), (255, 255, 255), font=font)  # draw the day text
 
     # draw the date: month day year 
-    w, h = draw.textsize(now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font=font2)
+    #w, h = draw.textlength(now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font=font2)
+    w, h = getSize(draw, now.strftime("%B") + " " + str(now.day) + " " + str(now.year), font2)
     draw.text(((W - w) / date_text_anchors[configurations[currentTheme][1][0]][1], (H - h) / date_text_anchors[configurations[currentTheme][1][1]][1] + 100), 
             now.strftime("%B") + " " + str(now.day) + " " + str(now.year), (255, 255, 255), font=font2)
 
